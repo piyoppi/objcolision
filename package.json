@@ -1,5 +1,5 @@
 {
-  "name": "bookmarker",
+  "name": "objcolider",
   "version": "1.0.0",
   "description": "",
   "main": "",
@@ -23,6 +23,5 @@
     "url-loader": "^0.5.9",
     "webpack": "^3.5.5"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
