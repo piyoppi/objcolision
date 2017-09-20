@@ -12,8 +12,8 @@ export default class display{
             }
             let dispelem = this._display_obj[element.id];
             dispelem.style.position = "absolute";
-            dispelem.style.left = `${element.x}px`;
-            dispelem.style.top  = `${element.y}px`;
+            dispelem.style.left = `${element.position[0]}px`;
+            dispelem.style.top  = `${element.position[1]}px`;
             dispelem.style.width = `${element.width}px`;
             dispelem.style.height = `${element.height}px`;
             dispelem.style.backgroundColor = element.color;
