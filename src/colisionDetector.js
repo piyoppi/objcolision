@@ -23,11 +23,11 @@ export default class colisionDetector {
     }
 
     convToMortonNumber(item){
-        let itemPosition = [ [Math.floor((item.position[0]) / this._lowLevelCellSize[0]), Math.floor((item.position[1]) / this._lowLevelCellSize[1])];
+        let itemPosition = [ [Math.floor((item.position[0]) / this._lowLevelCellSize[0]), Math.floor((item.position[1]) / this._lowLevelCellSize[1])]
                              [Math.floor((item.position[0] + item.width) / this._lowLevelCellSize[0]), Math.floor((item.position[1] + item.height) / this._lowLevelCellSize[1])] ];
         let mortonNum = [ convPositionToMortonNumber(itemPosition[0], itemPosition[1]) ];
-
-        (mortonNum[0] ^ mortonNum[1])
+        let shiftAmont = Math.floor(Math.log2(mortonNum[0] ^ mortonNum[1]))+1;
+        return mortonNum << shiftAmont;
     }
 
     registerItem(item){
