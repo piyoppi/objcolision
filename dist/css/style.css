@@ -3,4 +3,5 @@
     height: 500px;
     border-style: solid;
     position: relative;
+    background-image: url('../img/bg.png');
 }

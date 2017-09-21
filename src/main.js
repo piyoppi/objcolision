@@ -5,10 +5,12 @@ import colisionDetector from "./colisionDetector.js"
 let deltaTime = 0.1;
 let elements = [
     {id: 0, position: [100, 200], width: 150, height: 50, force: [0.0, 0.0], mass: 1.0, velocity: [0.0, 0.0], animate: null, color: 'black' },
-    {id: 1, position: [100, 50] , width: 50, height: 50, force: [0.0, 0.0], mass: 1.0, velocity: [0.0, 0.0], animate: null, color: 'red' }
+    {id: 1, position: [130, 390] , width: 50, height: 50, force: [0.0, 0.0], mass: 1.0, velocity: [0.0, 0.0], animate: null, color: 'red' }
 ];
 
-let disp = new display(document.getElementById('display'));
+let dispElem = document.getElementById('display');
+let disp = new display(dispElem);
+let colisionDetect = new colisionDetector(500, 500, 2);
 
 function render(){
     disp.renderElements(elements);
@@ -29,6 +31,7 @@ function setPosition(){
 }
 
 function freq(){
+    colisionDetect.isColision(elements[1]);
     calcVelocity();
     setPosition();
     render();
@@ -40,5 +43,5 @@ window.requestAnimationFrame(freq);
 
 //-------------------------------------------
 
-elements[0].force = [0, 0];
-elements[1].force = [0, 9.8];
+//elements[0].force = [0, 0];
+//elements[1].force = [0, 9.8];
