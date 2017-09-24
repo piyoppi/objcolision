@@ -18,7 +18,7 @@ let elements = [
     },
     {
         id: 1,
-        position: [140, 260] ,
+        position: [94, 210] ,
         width: 50,
         height: 50,
         force: [0.0, 0.0],
