@@ -6,7 +6,7 @@ let deltaTime = 0.1;
 let elements = [
     {
         id: 0,
-        position: [100, 200],
+        position: [100, 220],
         width: 150,
         height: 50,
         force: [0.0, 0.0],
@@ -18,14 +18,14 @@ let elements = [
     },
     {
         id: 1,
-        position: [130, 390] ,
+        position: [140, 260] ,
         width: 50,
         height: 50,
         force: [0.0, 0.0],
         mass: 1.0,
         velocity: [0.0, 0.0],
         animate: null,
-        color: 'red'
+        color: 'red',
         colisionInfo: [],
     }
 ];
@@ -53,12 +53,12 @@ function setPosition(){
 }
 
 function freq(){
-    colisionDetect.isColision(elements[1]);
+    colisionDetect.isColision(elements);
     calcVelocity();
     setPosition();
     render();
-    window.requestAnimationFrame(freq);
     console.log(`pos: ${elements[0].position[0]}, ${elements[0].position[1]}   vel: ${elements[0].velocity[0]}, ${elements[0].velocity[1]}`);
+    //window.requestAnimationFrame(freq);
 }
 
 window.requestAnimationFrame(freq);

@@ -8,13 +8,15 @@ export default class colisionDetector {
     }
 
     _makeLinearQuaternaryTree(){
-        let cycle = ( Math.pow(4, this._level)-1.0 ) / 3.0;
+        let cycle = ( Math.pow(4, this._level+1)-1.0 ) / 3.0;
         for( let i=0; i<cycle; i++ ){
             this._linearQuaternaryTree.push([]);
         }
+        //最も小さい領域のカウント
         let lowLevelCellCount = Math.pow( 2, this._level );
+        //最も小さい分割領域の大きさを計算
         this._lowLevelCellSize = [ this._fieldWidth / lowLevelCellCount, this._fieldHeight / lowLevelCellCount ];
-        this._bitLength = 2 * this._level;
+        console.log(`cellCount: ${cycle}, cellSize: ${cycle}`);
     }
 
     //****************************************************
@@ -24,10 +26,11 @@ export default class colisionDetector {
         items.forEach( item => {
             let mortonInfo = this.convToMortonNumber(item)
             let levelOffset = ( Math.pow(4, mortonInfo.level)-1.0 ) / 3.0;
-            this._linearQuaternaryTree[mortonInfo.mortonNum + levelOffset] = item;
+            this._linearQuaternaryTree[mortonInfo.mortonNum + levelOffset].push(item);
+            console.log(`id: ${item.id}  |  mortonNumber: ${mortonInfo.mortonNum}, level: ${mortonInfo.level}`);
         });
 
-        for( let lv = 0; lv <= this.level; lv++ ){
+        for( let lv = 0; lv <= this._level; lv++ ){
             this.mortonCheck(lv, 0);
         }
     }
@@ -40,20 +43,21 @@ export default class colisionDetector {
     //  parentItems     ->  親アイテム
     //****************************************************
     mortonCheck(level, mortonNum, parentItems = []){
-        let ofsQuaternaryTree = ( Math.pow(4, level)-1.0 ) / 3.0;
-        this._linearQuaternaryTree[ofsQuaternaryTree + mortonNum];
+        let idxQuaternaryTree = ((Math.pow(4, level)-1.0 ) / 3.0) + mortonNum;
+        let procMortonNode = this._linearQuaternaryTree[idxQuaternaryTree];
+        if( !procMortonNode ) return;
 
-        for( let i=0; i<this._linearQuaternaryTree.length; i++ ){
+        for( let i=0; i<procMortonNode.length; i++ ){
             //同一領域内のあたり判定を実行する
-            for( let n=i+1; n<this._linearQuaternaryTree.length; n++ ){
-                this._isColision(this._linearQuaternaryTree[i], this._linearQuaternaryTree[n]);
+            for( let n=i+1; n<procMortonNode; n++ ){
+                this._isColision(procMortonNode[i], procMortonNode[n]);
             }
             //親ノードのオブジェクトのあたり判定
-            for( n=0; n<parentItems.length; n++ ){
-                this._isColision(this._linearQuaternaryTree[i], parentItems[n]);
+            for( let n=0; n<parentItems.length; n++ ){
+                this._isColision(procMortonNode[i], parentItems[n]);
             }
             //親アイテムリストにアイテムを追加
-            parentItems.push(this._linearQuaternaryTree[i]);
+            parentItems.push(procMortonNode[i]);
         }
 
         //下の階層に潜る
@@ -80,14 +84,16 @@ export default class colisionDetector {
             let nowDistY = item1.position[1] - item2.position[1];
             item1.colisionInfo.push( {
                 pair: item2,
-                distX: (nowDistX >= 0 ? (intendedDistX - nowDistX) : (-intendedDistX - nowDistX),
-                distY: (nowDistY >= 0 ? (intendedDistY - nowDistY) : (-intendedDistY - nowDistY),
+                distX: (nowDistX >= 0 ? (intendedDistX - nowDistX) : (-intendedDistX - nowDistX)),
+                distY: (nowDistY >= 0 ? (intendedDistY - nowDistY) : (-intendedDistY - nowDistY)),
             }); 
             item2.colisionInfo.push( {
                 pair: item1,
-                distX: (nowDistX <= 0 ? (intendedDistX - nowDistX) : (-intendedDistX - nowDistX),
-                distY: (nowDistY <= 0 ? (intendedDistY - nowDistY) : (-intendedDistY - nowDistY),
+                distX: (nowDistX <= 0 ? (intendedDistX - nowDistX) : (-intendedDistX - nowDistX)),
+                distY: (nowDistY <= 0 ? (intendedDistY - nowDistY) : (-intendedDistY - nowDistY)),
             }); 
+            console.log(item1);
+            console.log(item2);
         }
     }
 
@@ -102,7 +108,6 @@ export default class colisionDetector {
         m = (m|(m<<4)) & 252645135;
         m = (m|(m<<2)) & 858993459;
         m = (m|(m<<1)) & 1431655765;
-        console.log(`mortonCalc: ${n | (m << 1)}`);
         return n | (m << 1);
     }
 
@@ -113,6 +118,7 @@ export default class colisionDetector {
         let shiftNumber = mortonNum[0] ^ mortonNum[1];
         let shiftAmont = (shiftNumber === 0) ? 0 : Math.floor(Math.log2(shiftNumber))+1;
         let level = this._level - Math.floor(shiftAmont / 2.0);
+        let levelOffset = ( Math.pow(4, level)-1.0 ) / 3.0;
         return {mortonNum: (mortonNum[1] >> shiftAmont), level: level};
     }
 
