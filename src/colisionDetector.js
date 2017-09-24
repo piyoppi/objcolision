@@ -21,15 +21,22 @@ export default class colisionDetector {
 
     //****************************************************
     //  全領域のオブジェクトの衝突判定を実行します
+    //  ---
+    //  items       ->   アイテムリスト
     //****************************************************
     isColision(items){
+        //オブジェクトごとの初期化処理
         items.forEach( item => {
+            //あたり判定フラグの初期化
+            item.colisionInfo = [];
+            //モートン木構造の作成
             let mortonInfo = this.convToMortonNumber(item)
             let levelOffset = ( Math.pow(4, mortonInfo.level)-1.0 ) / 3.0;
             this._linearQuaternaryTree[mortonInfo.mortonNum + levelOffset].push(item);
             console.log(`id: ${item.id}  |  mortonNumber: ${mortonInfo.mortonNum}, level: ${mortonInfo.level}`);
         });
 
+        //木の探索
         for( let lv = 0; lv <= this._level; lv++ ){
             this.mortonCheck(lv, 0);
         }
