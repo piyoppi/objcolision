@@ -4,8 +4,30 @@ import colisionDetector from "./colisionDetector.js"
 
 let deltaTime = 0.1;
 let elements = [
-    {id: 0, position: [100, 200], width: 150, height: 50, force: [0.0, 0.0], mass: 1.0, velocity: [0.0, 0.0], animate: null, color: 'black' },
-    {id: 1, position: [130, 390] , width: 50, height: 50, force: [0.0, 0.0], mass: 1.0, velocity: [0.0, 0.0], animate: null, color: 'red' }
+    {
+        id: 0,
+        position: [100, 200],
+        width: 150,
+        height: 50,
+        force: [0.0, 0.0],
+        mass: 1.0,
+        velocity: [0.0, 0.0],
+        animate: null,
+        color: 'black',
+        colisionInfo: [],
+    },
+    {
+        id: 1,
+        position: [130, 390] ,
+        width: 50,
+        height: 50,
+        force: [0.0, 0.0],
+        mass: 1.0,
+        velocity: [0.0, 0.0],
+        animate: null,
+        color: 'red'
+        colisionInfo: [],
+    }
 ];
 
 let dispElem = document.getElementById('display');
