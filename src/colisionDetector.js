@@ -7,6 +7,9 @@ export default class colisionDetector {
         this._makeLinearQuaternaryTree();
     }
 
+    //****************************************************
+    //  モートンツリーの初期化
+    //****************************************************
     _makeLinearQuaternaryTree(){
         let cycle = ( Math.pow(4, this._level+1)-1.0 ) / 3.0;
         for( let i=0; i<cycle; i++ ){
@@ -105,6 +108,9 @@ export default class colisionDetector {
         }
     }
 
+    //****************************************************
+    //  座標を領域番号に変換
+    //****************************************************
     convPositionToMortonNumber(position){
         let n = position[0];
         let m = position[1];
@@ -119,6 +125,9 @@ export default class colisionDetector {
         return n | (m << 1);
     }
 
+    //****************************************************
+    //  アイテムの所属する領域番号を算出
+    //****************************************************
     convToMortonNumber(item){
         let itemPosition = [ [Math.floor((item.position[0]) / this._lowLevelCellSize[0]), Math.floor((item.position[1]) / this._lowLevelCellSize[1])],
                              [Math.floor((item.position[0] + item.width) / this._lowLevelCellSize[0]), Math.floor((item.position[1] + item.height) / this._lowLevelCellSize[1])] ];
@@ -128,10 +137,6 @@ export default class colisionDetector {
         let level = this._level - Math.floor(shiftAmont / 2.0);
         let levelOffset = ( Math.pow(4, level)-1.0 ) / 3.0;
         return {mortonNum: (mortonNum[1] >> shiftAmont), level: level};
-    }
-
-    registerItem(item){
-        
     }
 
 }
