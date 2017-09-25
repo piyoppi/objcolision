@@ -1,10 +1,13 @@
 export default class colisionDetector {
-    constructor(fieldWidth, fieldHeight, level){
+    constructor(fieldWidth, fieldHeight, level, items){
         this._fieldWidth = fieldWidth;
         this._fieldHeight = fieldHeight;
         this._level = level;
         this._linearQuaternaryTree = [];
         this._makeLinearQuaternaryTree();
+        if( items ){
+            items.forEach( item => this.updateMortonTree(item) );
+        }
     }
 
     //****************************************************
@@ -13,13 +16,44 @@ export default class colisionDetector {
     _makeLinearQuaternaryTree(){
         let cycle = ( Math.pow(4, this._level+1)-1.0 ) / 3.0;
         for( let i=0; i<cycle; i++ ){
-            this._linearQuaternaryTree.push([]);
+            this._linearQuaternaryTree.push({items: {}});
         }
         //最も小さい領域のカウント
         let lowLevelCellCount = Math.pow( 2, this._level );
         //最も小さい分割領域の大きさを計算
         this._lowLevelCellSize = [ this._fieldWidth / lowLevelCellCount, this._fieldHeight / lowLevelCellCount ];
-        console.log(`cellCount: ${cycle}, cellSize: ${cycle}`);
+    }
+
+    //****************************************************
+    //  モートンツリーの所属を更新します
+    //****************************************************
+    updateMortonTree(item){
+        //モートン木構造の作成
+        let mortonInfo = this.convToMortonNumber(item);
+        let levelOffset = ( Math.pow(4, mortonInfo.level)-1.0 ) / 3.0;
+
+        let node = this._linearQuaternaryTree[mortonInfo.mortonNum + levelOffset];
+
+        //既にアイテムが登録されている場合はツリーから削除する
+        if( item.id in node.items ){
+            let regNode = node.items[item.id];
+            if( !regNode.next && !regNode.prev ) node.headItemID = null;
+            if( regNode.prev && node.items[regnNode.prev] ){ node.items[regNode.prev] = regNode.next; }
+            if( regNode.next && node.items[regnNode.next] ){ node.items[regNode.next] = regNode.prev; }
+            delete node.items[item.id];
+        }
+
+        //アイテムを追加する
+        if( !node.headItemID ){
+            let setItem = {item: item, prev: null, next: null};
+            node['items'] = {};
+            node['items'][item.id] = setItem;
+        }
+        else{
+            node['items'][node.headItemID].next = item.id;
+            node['items'][item.id] = {item: item, prev: node.headItemID, next: null};
+        }
+        node['headItemID']  = item.id;
     }
 
     //****************************************************
@@ -31,12 +65,8 @@ export default class colisionDetector {
         //オブジェクトごとの初期化処理
         items.forEach( item => {
             //あたり判定フラグの初期化
-            item.colisionInfo = [];
-            //モートン木構造の作成
-            let mortonInfo = this.convToMortonNumber(item)
-            let levelOffset = ( Math.pow(4, mortonInfo.level)-1.0 ) / 3.0;
-            this._linearQuaternaryTree[mortonInfo.mortonNum + levelOffset].push(item);
-            console.log(`id: ${item.id}  |  mortonNumber: ${mortonInfo.mortonNum}, level: ${mortonInfo.level}`);
+            item.colisionInfoList = [];
+            //console.log(`id: ${item.id}  |  mortonNumber: ${mortonInfo.mortonNum}, level: ${mortonInfo.level}`);
         });
 
         //木の探索
@@ -57,17 +87,28 @@ export default class colisionDetector {
         let procMortonNode = this._linearQuaternaryTree[idxQuaternaryTree];
         if( !procMortonNode ) return;
 
-        for( let i=0; i<procMortonNode.length; i++ ){
+        for (let itemID in procMortonNode['items']) {
+            let procMortonNodeItem = procMortonNode.items[itemID];
+
             //同一領域内のあたり判定を実行する
-            for( let n=i+1; n<procMortonNode; n++ ){
-                this._isColision(procMortonNode[i], procMortonNode[n]);
+            let currentMortonNodeItem = procMortonNode.items[procMortonNodeItem['next']];
+            while(true){
+                if( currentMortonNodeItem && currentMortonNodeItem.next !== null ){
+                    let nextItem = procMortonNodeItem[currentMortonNodeItem.next]
+                    this._isColision(currentMortonNodeItem.item, nextItem);
+                    currentMortonNodeItem = nextItem;
+                }
+                else{
+                    break;
+                }
             }
+
             //親ノードのオブジェクトのあたり判定
             for( let n=0; n<parentItems.length; n++ ){
-                this._isColision(procMortonNode[i], parentItems[n]);
+                this._isColision(procMortonNodeItem.item, parentItems[n]);
             }
             //親アイテムリストにアイテムを追加
-            parentItems.push(procMortonNode[i]);
+            parentItems.push(procMortonNodeItem.item);
         }
 
         //下の階層に潜る
@@ -94,16 +135,20 @@ export default class colisionDetector {
             let absdistY = distY < 0 ? -distY : distY;
             if( (absdistX > item1.width) || (absdistX > item2.width) ) distX = null;
             if( (absdistY > item1.height) || (absdistY > item2.height) ) distY = null;
-            console.log(`hit: idx: ${item1.id}   distX: ${distX}   distY: ${distY}`);
-            item1.colisionInfo.push( {
+            //console.log(`hit: idx: ${item1.id}   distX: ${distX}   distY: ${distY}`);
+            item1.colisionInfoList.push( {
                 pair: item2,
                 distX: distX,
                 distY: distY,
+                absDistX: absdistX,
+                absDistY: absdistY,
             }); 
-            item2.colisionInfo.push( {
+            item2.colisionInfoList.push( {
                 pair: item1,
                 distX: -distX,
                 distY: -distY,
+                absDistX: absdistX,
+                absDistY: absdistY,
             }); 
         }
     }
