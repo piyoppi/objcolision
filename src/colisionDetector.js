@@ -41,8 +41,8 @@ export default class colisionDetector {
         if( registeredNode && item.id in registeredNode.items ){
             let regNodeItem = registeredNode.items[item.id];
             if( !regNodeItem.next && !regNodeItem.prev ) registeredNode.headItemID = null;
-            if( regNodeItem.prev && registeredNode.items[regnNode.prev] ){ registeredNode.items[regNodeItem.prev] = regNodeItem.next; }
-            if( regNodeItem.next && registeredNode.items[regnNode.next] ){ registeredNode.items[regNodeItem.next] = regNodeItem.prev; }
+            if( regNodeItem.prev && registeredNode.items[regNodeItem.prev] ){ registeredNode.items[regNodeItem.prev].next = regNodeItem.next; }
+            if( regNodeItem.next && registeredNode.items[regNodeItem.next] ){ registeredNode.items[regNodeItem.next].prev = regNodeItem.prev; }
             delete registeredNode.items[item.id];
         }
 
@@ -95,12 +95,16 @@ export default class colisionDetector {
         for (let itemID in procMortonNode['items']) {
             let procMortonNodeItem = procMortonNode.items[itemID];
 
+            if( !procMortonNodeItem ){
+                console.log("xxx");
+            }
+
             //同一領域内のあたり判定を実行する
             let currentMortonNodeItem = procMortonNode.items[procMortonNodeItem['next']];
             while(true){
                 if( currentMortonNodeItem && currentMortonNodeItem.next !== null ){
-                    let nextItem = procMortonNodeItem[currentMortonNodeItem.next]
-                    this._isColision(currentMortonNodeItem.item, nextItem);
+                    let nextItem = procMortonNode.items[currentMortonNodeItem.next];
+                    this._isColision(currentMortonNodeItem.item, nextItem.item);
                     currentMortonNodeItem = nextItem;
                 }
                 else{
@@ -131,9 +135,6 @@ export default class colisionDetector {
     //  item2       ->  アイテム２
     //****************************************************
     _isColision(item1, item2){
-                if( !item2 ){
-                    console.log("xx");
-                }
         let r1 = item1.position[0] + item1.width;
         let r2 = item2.position[0] + item2.width;
         let b1 = item1.position[1] + item1.height;
