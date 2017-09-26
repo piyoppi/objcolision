@@ -84,7 +84,7 @@ function freq(){
     render();
     console.log(`pos: ${elements[0].position[0]}, ${elements[0].position[1]}   vel: ${elements[0].velocity[0]}, ${elements[0].velocity[1]}`);
     //window.requestAnimationFrame(freq);
-    setTimeout( freq, 100 );
+    setTimeout( freq, 10 );
 
     elements[1].force = [0, 9.8];
 }
