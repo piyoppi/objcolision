@@ -40,8 +40,13 @@ export default class colisionDetector {
         //既にアイテムが登録されている場合はツリーから削除する
         if( registeredNode && item.id in registeredNode.items ){
             let regNodeItem = registeredNode.items[item.id];
-            if( !regNodeItem.next && !regNodeItem.prev ) registeredNode.headItemID = null;
-            if( regNodeItem.prev && registeredNode.items[regNodeItem.prev] ){ registeredNode.items[regNodeItem.prev].next = regNodeItem.next; }
+            if( !regNodeItem.next && !regNodeItem.prev ){
+                registeredNode.headItemID = null;
+            }
+            if( regNodeItem.prev && registeredNode.items[regNodeItem.prev] ){
+                registeredNode.items[regNodeItem.prev].next = regNodeItem.next;
+                if( regNodeItem.next === null ) registeredNode.headItemID = regNodeItem.prev;
+            }
             if( regNodeItem.next && registeredNode.items[regNodeItem.next] ){ registeredNode.items[regNodeItem.next].prev = regNodeItem.prev; }
             delete registeredNode.items[item.id];
         }
@@ -94,10 +99,6 @@ export default class colisionDetector {
 
         for (let itemID in procMortonNode['items']) {
             let procMortonNodeItem = procMortonNode.items[itemID];
-
-            if( !procMortonNodeItem ){
-                console.log("xxx");
-            }
 
             //同一領域内のあたり判定を実行する
             let currentMortonNodeItem = procMortonNode.items[procMortonNodeItem['next']];

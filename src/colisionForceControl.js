@@ -1,7 +1,7 @@
 export default class colisionForceControl{
     constructor(){
-        this._default_k = 15;                   //めり込み回避ばね定数
-        this._default_c = 13;                   //めり込み回避ばね定数
+        this._default_k = 20;                   //めり込み回避ばね定数
+        this._default_c = 5;                   //めり込み回避ばね定数
     }
 
     changeForce(items){
