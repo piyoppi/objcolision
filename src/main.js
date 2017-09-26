@@ -16,6 +16,7 @@ let elements = [
         animate: null,
         color: 'black',
         colisionInfoList: [],
+        pin: true,
     },
     {
         id: 1,
@@ -28,6 +29,7 @@ let elements = [
         animate: null,
         color: 'red',
         colisionInfoList: [],
+        pin: false,
     }
 ];
 
@@ -42,8 +44,14 @@ function render(){
 
 function calcVelocity(){
     elements.forEach( item => {
-        item.velocity[0] += item.force[0] * deltaTime / item.mass;
-        item.velocity[1] += item.force[1] * deltaTime / item.mass;
+        if( item.pin ){
+            item.velocity[0] = 0;
+            item.velocity[1] = 0;
+        }
+        else{
+            item.velocity[0] += item.force[0] * deltaTime / item.mass;
+            item.velocity[1] += item.force[1] * deltaTime / item.mass;
+        }
     });
 }
 
@@ -64,6 +72,8 @@ function freq(){
     console.log(`pos: ${elements[0].position[0]}, ${elements[0].position[1]}   vel: ${elements[0].velocity[0]}, ${elements[0].velocity[1]}`);
     //window.requestAnimationFrame(freq);
     setTimeout( freq, 100 );
+
+elements[1].force = [0, 9.8];
 }
 
 freq();
@@ -71,4 +81,3 @@ freq();
 //-------------------------------------------
 
 //elements[0].force = [0, 0];
-//elements[1].force = [0, 9.8];

@@ -135,7 +135,7 @@ export default class colisionDetector {
             let absdistY = distY < 0 ? -distY : distY;
             if( (absdistX > item1.width) || (absdistX > item2.width) ) distX = null;
             if( (absdistY > item1.height) || (absdistY > item2.height) ) distY = null;
-            console.log(`hit: idx: ${item1.id}   distX: ${distX}   distY: ${distY}`);
+            //console.log(`hit: idx: ${item1.id}   distX: ${distX}   distY: ${distY}`);
             item1.colisionInfoList.push( {
                 pair: item2,
                 distX: distX,
