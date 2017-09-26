@@ -128,14 +128,14 @@ export default class colisionDetector {
         let r2 = item2.position[0] + item2.width;
         let b1 = item1.position[1] + item1.height;
         let b2 = item2.position[1] + item2.height;
-        if (item1.position[0] <= r2 && item2.position[0] <= r1 && item2.position[1] <= b2 && item2.position[1] <= b1) {
+        if (item1.position[0] <= r2 && item2.position[0] <= r1 && item1.position[1] <= b2 && item2.position[1] <= b1) {
             let distX = ( item1.position[0] < item2.position[0] ) ? (item1.position[0] + item1.width - item2.position[0]) : -(item2.position[0] + item2.width - item1.position[0]);
             let distY = ( item1.position[1] < item2.position[1] ) ? (item1.position[1] + item1.height - item2.position[1]) : -(item2.position[1] + item2.height - item1.position[1]);
             let absdistX = distX < 0 ? -distX : distX;
             let absdistY = distY < 0 ? -distY : distY;
             if( (absdistX > item1.width) || (absdistX > item2.width) ) distX = null;
             if( (absdistY > item1.height) || (absdistY > item2.height) ) distY = null;
-            //console.log(`hit: idx: ${item1.id}   distX: ${distX}   distY: ${distY}`);
+            console.log(`hit: idx: ${item1.id}   distX: ${distX}   distY: ${distY}`);
             item1.colisionInfoList.push( {
                 pair: item2,
                 distX: distX,

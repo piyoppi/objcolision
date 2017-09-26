@@ -9,11 +9,11 @@ export default class colisionForceControl{
                 //ばね力
                 if( colisionInfo.distX && colisionInfo.absDistX < colisionInfo.absDistY ){
                     item.force[0] += -this._default_k * colisionInfo.distX;
-                    console.log(`${item.force[0]} ${item.force[1]}`);
+                    //console.log(`${item.force[0]} ${item.force[1]}`);
                 }
                 else if( colisionInfo.distY ){
                     item.force[1] += -this._default_k * colisionInfo.distY;
-                    console.log(`${item.force[0]} ${item.force[1]}`);
+                    //console.log(`${item.force[0]} ${item.force[1]}`);
                 }
             });
         });
