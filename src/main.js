@@ -7,7 +7,7 @@ let deltaTime = 0.1;
 let elements = [
     {
         id: 0,
-        position: [100, 220],
+        position: [300, 220],
         width: 150,
         height: 50,
         force: [0.0, 0.0],
@@ -30,6 +30,19 @@ let elements = [
         color: 'red',
         colisionInfoList: [],
         pin: false,
+    },
+    {
+        id: 2,
+        position: [10, 400],
+        width: 350,
+        height: 50,
+        force: [0.0, 0.0],
+        mass: 1.0,
+        velocity: [0.0, 0.0],
+        animate: null,
+        color: 'green',
+        colisionInfoList: [],
+        pin: true,
     }
 ];
 
@@ -73,7 +86,7 @@ function freq(){
     //window.requestAnimationFrame(freq);
     setTimeout( freq, 100 );
 
-elements[1].force = [0, 9.8];
+    elements[1].force = [0, 9.8];
 }
 
 freq();
