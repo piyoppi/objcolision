@@ -31,16 +31,19 @@ export default class colisionDetector {
         //モートン木構造の作成
         let mortonInfo = this.convToMortonNumber(item);
         let levelOffset = ( Math.pow(4, mortonInfo.level)-1.0 ) / 3.0;
+        let mortonTreeIdx = mortonInfo.mortonNum + levelOffset;
+        if( item.regMortonTreeIdx === mortonTreeIdx ) return;
 
-        let node = this._linearQuaternaryTree[mortonInfo.mortonNum + levelOffset];
+        let node = this._linearQuaternaryTree[mortonTreeIdx];
+        let registeredNode = this._linearQuaternaryTree[item.regMortonTreeIdx];
 
         //既にアイテムが登録されている場合はツリーから削除する
-        if( item.id in node.items ){
-            let regNode = node.items[item.id];
-            if( !regNode.next && !regNode.prev ) node.headItemID = null;
-            if( regNode.prev && node.items[regnNode.prev] ){ node.items[regNode.prev] = regNode.next; }
-            if( regNode.next && node.items[regnNode.next] ){ node.items[regNode.next] = regNode.prev; }
-            delete node.items[item.id];
+        if( registeredNode && item.id in registeredNode.items ){
+            let regNodeItem = registeredNode.items[item.id];
+            if( !regNodeItem.next && !regNodeItem.prev ) registeredNode.headItemID = null;
+            if( regNodeItem.prev && registeredNode.items[regnNode.prev] ){ registeredNode.items[regNodeItem.prev] = regNodeItem.next; }
+            if( regNodeItem.next && registeredNode.items[regnNode.next] ){ registeredNode.items[regNodeItem.next] = regNodeItem.prev; }
+            delete registeredNode.items[item.id];
         }
 
         //アイテムを追加する
@@ -53,6 +56,7 @@ export default class colisionDetector {
             node['items'][node.headItemID].next = item.id;
             node['items'][item.id] = {item: item, prev: node.headItemID, next: null};
         }
+        item.regMortonTreeIdx = mortonTreeIdx;
         node['headItemID']  = item.id;
     }
 
@@ -127,6 +131,9 @@ export default class colisionDetector {
     //  item2       ->  アイテム２
     //****************************************************
     _isColision(item1, item2){
+                if( !item2 ){
+                    console.log("xx");
+                }
         let r1 = item1.position[0] + item1.width;
         let r2 = item2.position[0] + item2.width;
         let b1 = item1.position[1] + item1.height;
