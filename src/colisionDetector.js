@@ -1,3 +1,10 @@
+//
+//      衝突検知クラス
+//      --------------
+//
+//      オブジェクト同士の衝突を検知します
+//
+
 export default class colisionDetector {
     constructor(fieldWidth, fieldHeight, level, items){
         this._fieldWidth = fieldWidth;

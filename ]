@@ -1,13 +1,13 @@
 import display from "./display.js"
+import keyboard from "./keyboard.js"
 import colisionDetector from "./colisionDetector.js"
 import colisionForceController from "./colisionForceControl.js"
-import sharedResource from "./sharedResource.js"
 
 let deltaTime = 0.1;
 let elements = [
     {
         id: 0,
-        position: [300, 220],
+        position: [100, 220],
         width: 150,
         height: 50,
         force: [0.0, 0.0],
@@ -30,33 +30,20 @@ let elements = [
         color: 'red',
         colisionInfoList: [],
         pin: false,
-    },
+    }
     {
         id: 2,
-        position: [10, 400],
-        width: 350,
-        height: 50,
-        force: [0.0, 0.0],
-        mass: 1.0,
-        velocity: [0.0, 0.0],
-        animate: null,
-        color: 'green',
-        colisionInfoList: [],
-        pin: true,
-    },
-    {
-        id: 3,
-        position: [94, 100] ,
+        position: [94, 450] ,
         width: 50,
         height: 50,
         force: [0.0, 0.0],
         mass: 1.0,
         velocity: [0.0, 0.0],
         animate: null,
-        color: 'blue',
+        color: 'red',
         colisionInfoList: [],
         pin: true,
-    },
+    }
 ];
 
 let dispElem = document.getElementById('display');
@@ -95,12 +82,11 @@ function freq(){
     calcVelocity();
     setPosition();
     render();
-    //console.log(`pos: ${elements[0].position[0]}, ${elements[0].position[1]}   vel: ${elements[0].velocity[0]}, ${elements[0].velocity[1]}`);
+    console.log(`pos: ${elements[0].position[0]}, ${elements[0].position[1]}   vel: ${elements[0].velocity[0]}, ${elements[0].velocity[1]}`);
     //window.requestAnimationFrame(freq);
-    setTimeout( freq, 10 );
+    setTimeout( freq, 100 );
 
-    elements[1].force = [0, 9.8];
-    elements[3].force = [0, 9.8];
+elements[1].force = [0, 9.8];
 }
 
 freq();
