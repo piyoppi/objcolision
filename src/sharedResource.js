@@ -7,4 +7,6 @@
 
 import keyboard from "./keyboard.js"
 
-export let keyboardInfo = new keyboard();
+export default {
+    keyboardInfo: new keyboard(),
+}

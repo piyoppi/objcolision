@@ -2,6 +2,7 @@ import display from "./display.js"
 import colisionDetector from "./colisionDetector.js"
 import colisionForceController from "./colisionForceControl.js"
 import sharedResource from "./sharedResource.js"
+import addForceFromKey from "./addForceFromKey.js"
 
 let deltaTime = 0.1;
 let elements = [
@@ -17,6 +18,7 @@ let elements = [
         color: 'black',
         colisionInfoList: [],
         pin: true,
+        proc: [],
     },
     {
         id: 1,
@@ -30,6 +32,7 @@ let elements = [
         color: 'red',
         colisionInfoList: [],
         pin: false,
+        proc: [new addForceFromKey()],
     },
     {
         id: 2,
@@ -43,6 +46,7 @@ let elements = [
         color: 'green',
         colisionInfoList: [],
         pin: true,
+        proc: [],
     },
     {
         id: 3,
@@ -56,6 +60,7 @@ let elements = [
         color: 'blue',
         colisionInfoList: [],
         pin: true,
+        proc: [],
     },
 ];
 
@@ -89,7 +94,16 @@ function setPosition(){
     });
 }
 
+function proc(){
+    elements.forEach( item => {
+        item.proc.forEach( proc => {
+            proc.execute(item);
+        });
+    });
+}
+
 function freq(){
+    proc();
     colisionDetect.isColision(elements);
     colisionForce.changeForce(elements);
     calcVelocity();

@@ -6,19 +6,28 @@
 //
 
 export default class keyboard{
-    constructor(allowKeys){
-        document.addEventListener( 'keydown', this._onKeyDown, false );
-        document.addEventListener( 'keyup', this._onKeyUp, false );
+    constructor(){
+        document.addEventListener( 'keydown', e=>this._onKeyDown(e), false );
+        document.addEventListener( 'keyup', e=>this._onKeyUp(e), false );
         this.keys = {};
+        console.log('Initialized keyboard');
     }
 
     _onKeyDown(e){
         let keyCodeStr = e.keyCode.toString();
+        console.log(`keyDown: ${keyCodeStr}`);
+        if( !this.keys[keyCodeStr] ) this.keys[keyCodeStr] = {};
         this.keys[keyCodeStr].isKeyDown = true;
     }
 
     _onKeyUp(e){
         let keyCodeStr = e.keyCode.toString();
+        if( !this.keys[keyCodeStr] ) this.keys[keyCodeStr] = {};
+        console.log(`keyUp: ${keyCodeStr}`);
         this.keys[keyCodeStr].isKeyDown = false;
+    }
+
+    createEmptyData(){
+        return {isKeyDown: false};
     }
 }

@@ -1,18 +1,18 @@
 //
-//      ƒL[î•ñŽæ“¾ƒNƒ‰ƒX
+//      ã‚­ãƒ¼æƒ…å ±å–å¾—ã‚¯ãƒ©ã‚¹
 //      -------------------
 //
-//      ƒL[î•ñ‚ðŽæ“¾‚µ‚Ü‚·
+//      ã‚­ãƒ¼æƒ…å ±ã‚’å–å¾—ã—ã¾ã™
 //
-//
+
 import sharedResource from "./sharedResource.js"
 
 export default class keyReceiver{
 
     //****************************************************
-    //  ‰Šú‰»ˆ—
+    //  åˆæœŸåŒ–å‡¦ç†
     //  ---
-    //  keyItems        ->  ƒL[î•ñ [{name, description, keyCode}]
+    //  keyItems        ->  ã‚­ãƒ¼æƒ…å ± [{name, description, keyCode}]
     //****************************************************
     constructor(keyItems){
         this._keyItems = keyItems;
@@ -20,11 +20,16 @@ export default class keyReceiver{
     }
 
     //****************************************************
-    //  ƒL[î•ñ‚ðXV‚µ‚Ü‚·
+    //  ã‚­ãƒ¼æƒ…å ±ã‚’æ›´æ–°ã—ã¾ã™
     //****************************************************
     reloadKeyInfo(){
         this._keyItems.forEach( item => {
-            if( item.keyCode in sharedResource.keyboardInfo.keys ) this.keyInformation[item.name] = sharedResource.keyboardInfo.keys[item.keyCode];
+            if( item.keyCode in sharedResource.keyboardInfo.keys ){
+                this.keyInformation[item.name] = sharedResource.keyboardInfo.keys[item.keyCode];
+            }
+            else{
+                this.keyInformation[item.name] = this.keyInformation[item.name] | sharedResource.keyboardInfo.createEmptyData();
+            }
         });
     }
 
