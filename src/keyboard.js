@@ -15,7 +15,7 @@ export default class keyboard{
 
     _onKeyDown(e){
         let keyCodeStr = e.keyCode.toString();
-        console.log(`keyDown: ${keyCodeStr}`);
+        //console.log(`keyDown: ${keyCodeStr}`);
         if( !this.keys[keyCodeStr] ) this.keys[keyCodeStr] = {};
         this.keys[keyCodeStr].isKeyDown = true;
     }
@@ -23,7 +23,7 @@ export default class keyboard{
     _onKeyUp(e){
         let keyCodeStr = e.keyCode.toString();
         if( !this.keys[keyCodeStr] ) this.keys[keyCodeStr] = {};
-        console.log(`keyUp: ${keyCodeStr}`);
+        //console.log(`keyUp: ${keyCodeStr}`);
         this.keys[keyCodeStr].isKeyDown = false;
     }
 

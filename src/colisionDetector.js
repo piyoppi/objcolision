@@ -37,8 +37,7 @@ export default class colisionDetector {
     updateMortonTree(item){
         //モートン木構造の作成
         let mortonInfo = this.convToMortonNumber(item);
-        let levelOffset = ( Math.pow(4, mortonInfo.level)-1.0 ) / 3.0;
-        let mortonTreeIdx = mortonInfo.mortonNum + levelOffset;
+        let mortonTreeIdx = mortonInfo ? mortonInfo.mortonNum + ((Math.pow(4, mortonInfo.level)-1.0 ) / 3.0) : 0;
         if( item.regMortonTreeIdx === mortonTreeIdx ) return;
 
         let node = this._linearQuaternaryTree[mortonTreeIdx];
@@ -197,9 +196,9 @@ export default class colisionDetector {
                              [Math.floor((item.position[0] + item.width) / this._lowLevelCellSize[0]), Math.floor((item.position[1] + item.height) / this._lowLevelCellSize[1])] ];
         let mortonNum = [this.convPositionToMortonNumber(itemPosition[0]), this.convPositionToMortonNumber(itemPosition[1])];
         let shiftNumber = mortonNum[0] ^ mortonNum[1];
+        if( shiftNumber < 0 ) return null;
         let shiftAmont = (shiftNumber === 0) ? 0 : (Math.floor( Math.log(shiftNumber) / Math.log(4) ) + 1) * 2;
         let level = this._level - Math.floor(shiftAmont / 2.0);
-        let levelOffset = ( Math.pow(4, level)-1.0 ) / 3.0;
         return {mortonNum: (mortonNum[1] >> shiftAmont), level: level};
     }
 

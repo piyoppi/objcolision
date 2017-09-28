@@ -14,11 +14,9 @@ export default class addForceFromKey{
         this.keyReceiver.reloadKeyInfo();
         if( this.keyReceiver.keyInformation.left.isKeyDown ){
             item.force[0] -= 3;
-            console.log('Add force');
         }
         else if( this.keyReceiver.keyInformation.right.isKeyDown ){
             item.force[0] += 3;
-            console.log('Add force');
         }
     }
 }

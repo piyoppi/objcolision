@@ -9,4 +9,5 @@ import keyboard from "./keyboard.js"
 
 export default {
     keyboardInfo: new keyboard(),
+    deltaTime: 0.1
 }

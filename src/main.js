@@ -4,7 +4,6 @@ import colisionForceController from "./colisionForceControl.js"
 import sharedResource from "./sharedResource.js"
 import addForceFromKey from "./addForceFromKey.js"
 
-let deltaTime = 0.1;
 let elements = [
     {
         id: 0,
@@ -22,7 +21,7 @@ let elements = [
     },
     {
         id: 1,
-        position: [94, 180] ,
+        position: [194, 180] ,
         width: 50,
         height: 50,
         force: [0.0, 0.0],
@@ -40,7 +39,7 @@ let elements = [
         width: 350,
         height: 50,
         force: [0.0, 0.0],
-        mass: 1.0,
+        mass: 100.0,
         velocity: [0.0, 0.0],
         animate: null,
         color: 'green',
@@ -50,11 +49,11 @@ let elements = [
     },
     {
         id: 3,
-        position: [94, 100] ,
+        position: [194, 100] ,
         width: 50,
         height: 50,
         force: [0.0, 0.0],
-        mass: 1.0,
+        mass: 0.3,
         velocity: [0.0, 0.0],
         animate: null,
         color: 'blue',
@@ -78,18 +77,20 @@ function calcVelocity(){
         if( item.pin ){
             item.velocity[0] = 0;
             item.velocity[1] = 0;
+            item.force[0] = 0;
+            item.force[1] = 0;
         }
         else{
-            item.velocity[0] += item.force[0] * deltaTime / item.mass;
-            item.velocity[1] += item.force[1] * deltaTime / item.mass;
+            item.velocity[0] += item.force[0] * sharedResource.deltaTime / item.mass;
+            item.velocity[1] += item.force[1] * sharedResource.deltaTime / item.mass;
         }
     });
 }
 
 function setPosition(){
     elements.forEach( item => {
-        item.position[0] += item.velocity[0] * deltaTime;
-        item.position[1] += item.velocity[1] * deltaTime;
+        item.position[0] += item.velocity[0] * sharedResource.deltaTime;
+        item.position[1] += item.velocity[1] * sharedResource.deltaTime;
         if( (item.velocity[0] != 0) || (item.velocity[1] != 0 ) ) colisionDetect.updateMortonTree(item);
     });
 }
