@@ -3,7 +3,7 @@ export default class colisionForceControl{
     constructor(){
         this._default_k = 9;                   //めり込み回避ばね定数
         this._default_c = 1;                   //めり込み回避ばね定数
-        this._default_e = 0.3;
+        this._default_e = 0.8;
         this._deltaTime = sharedResource.deltaTime;
     }
 
@@ -18,10 +18,10 @@ export default class colisionForceControl{
     _changeForce(items){
         items.forEach( item => {
             item.colisionInfoList.forEach( colisionInfo => {
-                let relativeVelocity = [ -item.velocity[0] + colisionInfo.pair.velocity[0], -item.velocity[1] + colisionInfo.pair.velocity[1] ];
+                let relativeVelocity = [ item.velocity[0] - colisionInfo.pair.velocity[0], item.velocity[1] - colisionInfo.pair.velocity[1] ];
                 let colisionMassParam = (1.0 + this._default_e) * (item.mass * colisionInfo.pair.mass) / (item.mass + colisionInfo.pair.mass);
-                let addForceX = colisionMassParam * relativeVelocity[0] / this._deltaTime;
-                let addForceY = colisionMassParam * relativeVelocity[1] / this._deltaTime;
+                let addForceX = colisionMassParam * relativeVelocity[0] / this._deltaTime * -colisionInfo.colisionFaceVec[0];
+                let addForceY = colisionMassParam * relativeVelocity[1] / this._deltaTime * -colisionInfo.colisionFaceVec[1];
                 console.log(`${item.id} ${colisionInfo.pair.id} | ${addForceX} ${addForceY}`);
                 item.force[0] += addForceX;
                 item.force[1] += addForceY;

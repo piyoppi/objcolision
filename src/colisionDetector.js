@@ -149,24 +149,31 @@ export default class colisionDetector {
         if ( (item1.position[0] <= r2) && (item2.position[0] <= r1) && (item1.position[1] <= b2) && (item2.position[1] <= b1) ) {
             let distX = ( item1.position[0] < item2.position[0] ) ? (item1.position[0] + item1.width - item2.position[0]) : -(item2.position[0] + item2.width - item1.position[0]);
             let distY = ( item1.position[1] < item2.position[1] ) ? (item1.position[1] + item1.height - item2.position[1]) : -(item2.position[1] + item2.height - item1.position[1]);
+            let normVec = [distX > 0 ? 1 : -1, distY > 0 ? 1 : -1];          //衝突オブジェクトから見た衝突面の法線ベクトル
             let absdistX = distX < 0 ? -distX : distX;
             let absdistY = distY < 0 ? -distY : distY;
             if( (absdistX > item1.width) || (absdistX > item2.width) ) distX = null;
             if( (absdistY > item1.height) || (absdistY > item2.height) ) distY = null;
+            if( !distX ) normVec[0] = 0;
+            if( !distY ) normVec[1] = 0;
             //console.log(`hit: idx: ${item1.id},${item2.id}   distX: ${distX}   distY: ${distY}`);
+            //衝突側オブジェクトの衝突情報を記録
             item1.colisionInfoList.push( {
                 pair: item2,
                 distX: distX,
                 distY: distY,
                 absDistX: absdistX,
                 absDistY: absdistY,
+                colisionFaceVec: normVec,
             }); 
+            //被衝突側オブジェクトの衝突情報を記
             item2.colisionInfoList.push( {
                 pair: item1,
                 distX: -distX,
                 distY: -distY,
                 absDistX: absdistX,
                 absDistY: absdistY,
+                colisionFaceVec: [-normVec[0], -normVec[1]],
             }); 
         }
     }
