@@ -22,7 +22,7 @@ export default class colisionForceControl{
                 let colisionMassParam = (1.0 + this._default_e) * (item.mass * colisionInfo.pair.mass) / (item.mass + colisionInfo.pair.mass);
                 let addForceX = colisionMassParam * relativeVelocity[0] / this._deltaTime * -colisionInfo.colisionFaceVec[0];
                 let addForceY = colisionMassParam * relativeVelocity[1] / this._deltaTime * -colisionInfo.colisionFaceVec[1];
-                console.log(`${item.id} ${colisionInfo.pair.id} | ${addForceX} ${addForceY}`);
+                console.log(`${item.id} ${colisionInfo.pair.id} | ${-colisionInfo.colisionFaceVec[0]} ${-colisionInfo.colisionFaceVec[1]} | ${addForceX} ${addForceY}`);
                 item.force[0] += addForceX;
                 item.force[1] += addForceY;
             });

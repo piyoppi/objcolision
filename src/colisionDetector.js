@@ -123,14 +123,18 @@ export default class colisionDetector {
             for( let n=0; n<parentItems.length; n++ ){
                 this._isColision(procMortonNodeItem.item, parentItems[n]);
             }
-            //親アイテムリストにアイテムを追加
-            parentItems.push(procMortonNodeItem.item);
+        }
+
+        //親アイテムリストにアイテムを追加
+        for (let itemID in procMortonNode['items']) {
+            parentItems.push(procMortonNode.items[itemID].item);
         }
 
         //下の階層に潜る
         for( let j=0; j<4; j++ ){
             this.mortonCheck(level+1, 4*mortonNum+j, parentItems);
         }
+
         //親アイテムリストからアイテムを削除する
         parentItems.splice(beforeParentCount, parentItems.length - beforeParentCount);
     }
@@ -154,9 +158,9 @@ export default class colisionDetector {
             let absdistY = distY < 0 ? -distY : distY;
             if( (absdistX > item1.width) || (absdistX > item2.width) ) distX = null;
             if( (absdistY > item1.height) || (absdistY > item2.height) ) distY = null;
-            if( !distX ) normVec[0] = 0;
-            if( !distY ) normVec[1] = 0;
-            //console.log(`hit: idx: ${item1.id},${item2.id}   distX: ${distX}   distY: ${distY}`);
+            if( !distX || (absdistX > absdistY) ) normVec[0] = 0;
+            if( !distY || (absdistX < absdistY) ) normVec[1] = 0;
+            console.log(`hit: idx: ${item1.id},${item2.id}   distX: ${distX}   distY: ${distY}`);
             //衝突側オブジェクトの衝突情報を記録
             item1.colisionInfoList.push( {
                 pair: item2,
