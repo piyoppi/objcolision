@@ -73,9 +73,9 @@ function render(){
 }
 
 function calcVelocity(){
-    console.log('-----');
+    //console.log('-----');
     elements.forEach( item => {
-        console.log(`${item.id}  | ${item.force[0]}, ${item.force[1]}`);
+        //console.log(`${item.id}  | ${item.force[0]}, ${item.force[1]}`);
         if( item.pin ){
             item.velocity[0] = 0;
             item.velocity[1] = 0;
