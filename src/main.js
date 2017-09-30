@@ -3,9 +3,10 @@ import colisionDetector from "./colisionDetector.js"
 import colisionForceController from "./colisionForceControl.js"
 import sharedResource from "./sharedResource.js"
 import addForceFromKey from "./addForceFromKey.js"
+import basicItem from "./basicItem.js"
 
 let elements = [
-    {
+    new basicItem({
         id: 0,
         position: [300, 220],
         width: 150,
@@ -15,11 +16,9 @@ let elements = [
         velocity: [0.0, 0.0],
         animate: null,
         color: 'black',
-        colisionInfoList: [],
         pin: true,
-        proc: [],
-    },
-    {
+    }),
+    new basicItem({
         id: 1,
         position: [194, 180] ,
         width: 50,
@@ -29,11 +28,10 @@ let elements = [
         velocity: [0.0, 0.0],
         animate: null,
         color: 'red',
-        colisionInfoList: [],
         pin: false,
         proc: [new addForceFromKey()],
-    },
-    {
+    }),
+    new basicItem({
         id: 2,
         position: [10, 400],
         width: 350,
@@ -43,11 +41,9 @@ let elements = [
         velocity: [0.0, 0.0],
         animate: null,
         color: 'green',
-        colisionInfoList: [],
         pin: true,
-        proc: [],
-    },
-    {
+    }),
+    new basicItem({
         id: 3,
         position: [194, 100] ,
         width: 50,
@@ -57,10 +53,9 @@ let elements = [
         velocity: [0.0, 0.0],
         animate: null,
         color: 'blue',
-        colisionInfoList: [],
         pin: false,
         proc: [],
-    },
+    }),
 ];
 
 let dispElem = document.getElementById('display');
@@ -73,9 +68,10 @@ function render(){
 }
 
 function calcVelocity(){
-    //console.log('-----');
+    console.log('-----');
     elements.forEach( item => {
         //console.log(`${item.id}  | ${item.force[0]}, ${item.force[1]}`);
+        console.log( item.forceList );
         if( item.pin ){
             item.velocity[0] = 0;
             item.velocity[1] = 0;
@@ -87,7 +83,8 @@ function calcVelocity(){
             item.velocity[0] += item.force[0] * sharedResource.deltaTime / item.mass;
             item.velocity[1] += item.force[1] * sharedResource.deltaTime / item.mass;
             item.absVelocity = Math.sqrt(item.velocity[0] * item.velocity[0] + item.velocity[1] * item.velocity[1]);
-         }
+        }
+        item.forceList = [];
     });
 }
 
