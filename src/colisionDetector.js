@@ -160,7 +160,7 @@ export default class colisionDetector {
             if( (absdistY > item1.height) || (absdistY > item2.height) ) distY = null;
             if( !distX || (absdistX > absdistY) ) normVec[0] = 0;
             if( !distY || (absdistX < absdistY) ) normVec[1] = 0;
-            console.log(`hit: idx: ${item1.id},${item2.id}   distX: ${distX}   distY: ${distY}`);
+            //console.log(`hit: idx: ${item1.id},${item2.id}   distX: ${distX}   distY: ${distY}`);
             //衝突側オブジェクトの衝突情報を記録
             item1.colisionInfoList.push( {
                 pair: item2,

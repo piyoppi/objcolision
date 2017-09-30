@@ -58,7 +58,7 @@ let elements = [
         animate: null,
         color: 'blue',
         colisionInfoList: [],
-        pin: true,
+        pin: false,
         proc: [],
     },
 ];
@@ -73,7 +73,9 @@ function render(){
 }
 
 function calcVelocity(){
+    console.log('-----');
     elements.forEach( item => {
+        console.log(`${item.id}  | ${item.force[0]}, ${item.force[1]}`);
         if( item.pin ){
             item.velocity[0] = 0;
             item.velocity[1] = 0;
