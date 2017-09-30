@@ -109,10 +109,9 @@ export default class colisionDetector {
             //同一領域内のあたり判定を実行する
             let currentMortonNodeItem = procMortonNode.items[procMortonNodeItem['next']];
             while(true){
-                if( currentMortonNodeItem && currentMortonNodeItem.next !== null ){
-                    let nextItem = procMortonNode.items[currentMortonNodeItem.next];
-                    this._isColision(currentMortonNodeItem.item, nextItem.item);
-                    currentMortonNodeItem = nextItem;
+                if( currentMortonNodeItem ){
+                    this._isColision(procMortonNodeItem.item, currentMortonNodeItem.item);
+                    currentMortonNodeItem = procMortonNode.items[currentMortonNodeItem.next];
                 }
                 else{
                     break;
