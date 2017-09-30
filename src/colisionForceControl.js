@@ -25,13 +25,9 @@ export default class colisionForceControl{
                 let addForceX = colisionMassParam * relativeVelocity[0] / this._deltaTime * -colisionInfo.colisionFaceVec[0];
                 let addForceY = colisionMassParam * relativeVelocity[1] / this._deltaTime * -colisionInfo.colisionFaceVec[1];
                 //if( item.id === 1 && colisionInfo.pair.id === 3) console.log(`${item.id} ${colisionInfo.pair.id} | ${-colisionInfo.colisionFaceVec[0]} ${-colisionInfo.colisionFaceVec[1]} | ${addForceX} ${addForceY}`);
-                item.force[0] += addForceX;
-                item.force[1] += addForceY;
-                item.forceList.push( { addX: addForceX, addY: addForceY, face: colisionInfo.colisionFaceVec } );
+                item.addForce([addForceX, addForceY], colisionInfo.colisionFaceVec);
                 //被衝突オブジェクトには反作用の力が加わる
-                colisionInfo.pair.force[0] -= addForceX;
-                colisionInfo.pair.force[1] -= addForceY;
-                colisionInfo.pair.forceList.push( { addX: -addForceX, addY: -addForceY, face: [-colisionInfo.colisionFaceVec[0], -colisionInfo.colisionFaceVec[1]] } );
+                colisionInfo.pair.addForce([-addForceX, -addForceY], [-colisionInfo.colisionFaceVec[0], -colisionInfo.colisionFaceVec[1]]);
             });
         });
     }
@@ -46,13 +42,12 @@ export default class colisionForceControl{
                 if( colisionInfo.distX && colisionInfo.absDistX < colisionInfo.absDistY ){
                     item.force[0] += -this._default_kx * colisionInfo.distX;
                     item.force[0] += -this._default_cx * item.velocity[0];
-                    item.forceList.push( { addX: item.force[0], addY: 0, face: colisionInfo.colisionFaceVec } );
+                    item.addForce([-this._default_cx * item.velocity[0] - this._default_kx * colisionInfo.distX, 0], colisionInfo.colisionFaceVec);
                     //console.log(`${item.force[0]} ${item.force[1]}`);
                 }
                 else if( colisionInfo.distY ){
-                    item.force[1] += -this._default_ky * colisionInfo.distY;
-                    item.force[1] += -this._default_cy * item.velocity[1];
                     item.forceList.push( { addX: 0, addY: item.force[1], face: colisionInfo.colisionFaceVec } );
+                    item.addForce([0, -this._default_cy * item.velocity[1]-this._default_ky * colisionInfo.distY], colisionInfo.colisionFaceVec);
                     //console.log(`${item.force[0]} ${item.force[1]}`);
                 }
             });

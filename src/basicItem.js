@@ -16,4 +16,10 @@ export default class basicItem{
         this.proc = param.proc || [];
     }
 
+    addForce(vecForce, vecFace){
+        this.force[0] += vecForce[0];
+        this.force[1] += vecForce[1];
+        this.forceList.push( { addX: vecForce[0], addY: vecForce[1], face: vecFace} );
+    }
+
 }

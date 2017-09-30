@@ -76,14 +76,14 @@ function calcVelocity(){
             item.velocity[0] = 0;
             item.velocity[1] = 0;
             item.absVelocity = 0;
-            item.force[0] = 0;
-            item.force[1] = 0;
         }
         else{
             item.velocity[0] += item.force[0] * sharedResource.deltaTime / item.mass;
             item.velocity[1] += item.force[1] * sharedResource.deltaTime / item.mass;
             item.absVelocity = Math.sqrt(item.velocity[0] * item.velocity[0] + item.velocity[1] * item.velocity[1]);
         }
+        item.force[0] = 0;
+        item.force[1] = 0;
         item.forceList = [];
     });
 }
@@ -115,8 +115,8 @@ function freq(){
     //window.requestAnimationFrame(freq);
     setTimeout( freq, 10 );
 
-    elements[1].force = [0, 9.8];
-    elements[3].force = [0, 9.8];
+    elements[1].addForce([0, 9.8], null);
+    elements[3].addForce([0, 9.8], null);
 }
 
 freq();
