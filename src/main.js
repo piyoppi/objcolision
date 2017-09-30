@@ -53,7 +53,20 @@ let elements = [
         velocity: [0.0, 0.0],
         animate: null,
         color: 'blue',
-        pin: false,
+        pin: true,
+        proc: [],
+    }),
+    new basicItem({
+        id: 4,
+        position: [194, 10] ,
+        width: 50,
+        height: 50,
+        force: [0.0, 0.0],
+        mass: 1.0,
+        velocity: [0.0, 0.0],
+        animate: null,
+        color: 'blue',
+        pin: true,
         proc: [],
     }),
 ];
@@ -117,6 +130,7 @@ function freq(){
 
     elements[1].addForce([0, 9.8], null);
     elements[3].addForce([0, 9.8], null);
+    elements[4].addForce([0, 9.8], null);
 }
 
 freq();

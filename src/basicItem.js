@@ -14,12 +14,18 @@ export default class basicItem{
         this.colisionInfoList = [];
         this.pin = param.pin || false;
         this.proc = param.proc || [];
+
+        this.minForce = 0.0001
     }
 
-    addForce(vecForce, vecFace){
-        this.force[0] += vecForce[0];
-        this.force[1] += vecForce[1];
-        this.forceList.push( { addX: vecForce[0], addY: vecForce[1], face: vecFace} );
+    addForce(vecForce, vecFace = null, pair = null){
+        let veclen = vecForce[0] * vecForce[0] + vecForce[1] * vecForce[1];
+        if( veclen > this.minForce ) {
+            this.force[0] += vecForce[0];
+            this.force[1] += vecForce[1];
+            this.forceList.push( { addX: vecForce[0], addY: vecForce[1], vecFace: vecFace, pair: pair} );
+        }
+
     }
 
 }
