@@ -2,9 +2,9 @@ import sharedResource from "./sharedResource.js"
 export default class colisionForceControl{
     constructor(){
         this._default_kx = 4;                   //めり込み回避ばね定数
-        this._default_ky = 9;                   //めり込み回避ばね定数
-        this._default_cx = 0;                   //めり込み回避ばね定数
-        this._default_cy = 1;                   //めり込み回避ばね定数
+        this._default_ky = 13;                   //めり込み回避ばね定数
+        this._default_cx = 0;                   //めり込み回避減衰定数
+        this._default_cy = 3;                   //めり込み回避減衰定数
         this._default_e = 0.3;
         this._deltaTime = sharedResource.deltaTime;
     }
@@ -28,6 +28,9 @@ export default class colisionForceControl{
                 if( item.id === 3 && colisionInfo.pair.id === 1) console.log(`${item.id} ${colisionInfo.pair.id} | ${-colisionInfo.colisionFaceVec[0]} ${-colisionInfo.colisionFaceVec[1]} | ${addForceX} ${addForceY}`);
                 item.force[0] += addForceX;
                 item.force[1] += addForceY;
+                //被衝突オブジェクトには反作用の力が加わる
+                colisionInfo.pair.force[0] -= addForceX;
+                colisionInfo.pair.force[1] -= addForceY;
             });
         });
     }

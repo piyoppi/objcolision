@@ -53,7 +53,7 @@ let elements = [
         width: 50,
         height: 50,
         force: [0.0, 0.0],
-        mass: 0.3,
+        mass: 1.0,
         velocity: [0.0, 0.0],
         animate: null,
         color: 'blue',
@@ -79,13 +79,15 @@ function calcVelocity(){
         if( item.pin ){
             item.velocity[0] = 0;
             item.velocity[1] = 0;
+            item.absVelocity = 0;
             item.force[0] = 0;
             item.force[1] = 0;
         }
         else{
             item.velocity[0] += item.force[0] * sharedResource.deltaTime / item.mass;
             item.velocity[1] += item.force[1] * sharedResource.deltaTime / item.mass;
-        }
+            item.absVelocity = Math.sqrt(item.velocity[0] * item.velocity[0] + item.velocity[1] * item.velocity[1]);
+         }
     });
 }
 
