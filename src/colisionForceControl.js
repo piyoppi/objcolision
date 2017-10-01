@@ -7,7 +7,7 @@ export default class colisionForceControl{
         this._default_cy = 3;                   //めり込み回避減衰定数
         this._default_e = 0.3;
         this._default_dynamicFric = 0.1;
-        this._default_staticFric = 0.3;
+        this._default_staticFric = 0.2;
         this._deltaTime = sharedResource.deltaTime;
 
         this._SIN_RIGHT_ANGLE = Math.sin(3.14159266/2.0);
@@ -57,9 +57,9 @@ export default class colisionForceControl{
                 if( !forceBuffer[item.id] ) forceBuffer[item.id] = {force: [0, 0], item: item};
                 if( !forceBuffer[forceInfo.pair.id] ) forceBuffer[forceInfo.pair.id] = {force: [0, 0], item: forceInfo.pair};
 
-                ////静止摩擦力
-                //let itemForceFaceDir = Math.abs(fricFaceDirection[0] * item.force[0] + fricFaceDirection[1] * item.force[1]);
-                //let staticFrictionForce = Math.abs(this._default_staticFric * normForceLength);
+                //静止摩擦力
+                let itemForceFaceDir = Math.abs(fricFaceDirection[0] * item.force[0] + fricFaceDirection[1] * item.force[1]);
+                let staticFrictionForce = Math.abs(this._default_staticFric * normForceLength);
                 //if( (itemForceFaceDir < staticFrictionForce) ){
                 //    let addForceX = fricFaceDirection[0] * itemForceFaceDir;
                 //    let addForceY = fricFaceDirection[1] * itemForceFaceDir;
@@ -72,10 +72,10 @@ export default class colisionForceControl{
                     let addForceY = fricFaceDirection[1] * normForceLength * this._default_dynamicFric;
                     forceBuffer[item.id].force[0] += addForceX;
                     forceBuffer[item.id].force[1] += addForceY;
-                    
+
                     ////反力を加える
-                    //forceInfo.pair.addForce( [-fricFaceDirection[0] * normForceLength * this._default_dynamicFric,
-                    //                          -fricFaceDirection[1] * normForceLength * this._default_dynamicFric] );
+                //    forceBuffer[forceInfo.pair.id].force[0] += -fricFaceDirection[0] * normForceLength * this._default_dynamicFric;
+                //    forceBuffer[forceInfo.pair.id].force[1] += -fricFaceDirection[1] * normForceLength * this._default_dynamicFric;
                 //}
 
 

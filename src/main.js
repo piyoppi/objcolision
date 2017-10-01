@@ -53,7 +53,7 @@ let elements = [
         velocity: [0.0, 0.0],
         animate: null,
         color: 'blue',
-        pin: false,
+        pin: true,
         proc: [],
     }),
     new basicItem({
@@ -81,6 +81,7 @@ function render(){
 }
 
 function calcVelocity(){
+    let _FRIC_IGNORE_DIRECTION = 0.01;
     console.log('-----');
     elements.forEach( item => {
         console.log(`${item.id}  | ${item.force[0]}, ${item.force[1]}`);
@@ -93,6 +94,8 @@ function calcVelocity(){
         else{
             item.velocity[0] += item.force[0] * sharedResource.deltaTime / item.mass;
             item.velocity[1] += item.force[1] * sharedResource.deltaTime / item.mass;
+            if( Math.abs(item.velocity[0]) < _FRIC_IGNORE_DIRECTION ) item.velocity[0] = 0;
+            if( Math.abs(item.velocity[1]) < _FRIC_IGNORE_DIRECTION) item.velocity[1] = 0;
             item.absVelocity = Math.sqrt(item.velocity[0] * item.velocity[0] + item.velocity[1] * item.velocity[1]);
         }
         item.force[0] = 0;
