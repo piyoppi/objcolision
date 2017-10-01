@@ -49,7 +49,7 @@ let elements = [
         width: 50,
         height: 50,
         force: [0.0, 0.0],
-        mass: 1.0,
+        mass: 0.3,
         velocity: [0.0, 0.0],
         animate: null,
         color: 'blue',
@@ -83,8 +83,8 @@ function render(){
 function calcVelocity(){
     console.log('-----');
     elements.forEach( item => {
-        //console.log(`${item.id}  | ${item.force[0]}, ${item.force[1]}`);
-        console.log( item.forceList );
+        console.log(`${item.id}  | ${item.force[0]}, ${item.force[1]}`);
+        //console.log( item.forceList );
         if( item.pin ){
             item.velocity[0] = 0;
             item.velocity[1] = 0;
@@ -128,9 +128,9 @@ function freq(){
     //window.requestAnimationFrame(freq);
     setTimeout( freq, 10 );
 
-    elements[1].addForce([0, 9.8], null);
-    elements[3].addForce([0, 9.8], null);
-    elements[4].addForce([0, 9.8], null);
+    elements[1].addForce([0, 9.8 * elements[1].mass], null);
+    elements[3].addForce([0, 9.9 * elements[3].mass], null);
+    elements[4].addForce([0, 9.8 * elements[4].mass], null);
 }
 
 freq();
