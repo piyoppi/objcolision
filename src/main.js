@@ -49,11 +49,11 @@ let elements = [
         width: 50,
         height: 50,
         force: [0.0, 0.0],
-        mass: 0.3,
+        mass: 1,
         velocity: [0.0, 0.0],
         animate: null,
         color: 'blue',
-        pin: true,
+        pin: false,
         proc: [],
     }),
     new basicItem({
