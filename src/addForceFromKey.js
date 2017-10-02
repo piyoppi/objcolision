@@ -13,10 +13,10 @@ export default class addForceFromKey{
     execute(item){
         this.keyReceiver.reloadKeyInfo();
         if( this.keyReceiver.keyInformation.left.isKeyDown ){
-            item.force[0] -= 3;
+            item.force[0] -= 4;
         }
         else if( this.keyReceiver.keyInformation.right.isKeyDown ){
-            item.force[0] += 3;
+            item.force[0] += 4;
         }
     }
 }
