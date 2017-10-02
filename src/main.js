@@ -53,7 +53,7 @@ let elements = [
         velocity: [0.0, 0.0],
         animate: null,
         color: 'blue',
-        pin: true,
+        pin: false,
         proc: [],
     }),
     new basicItem({
@@ -66,7 +66,7 @@ let elements = [
         velocity: [0.0, 0.0],
         animate: null,
         color: 'blue',
-        pin: true,
+        pin: false,
         proc: [],
     }),
 ];
@@ -81,7 +81,7 @@ function render(){
 }
 
 function calcVelocity(){
-    let _FRIC_IGNORE_DIRECTION = 0.01;
+    let _FRIC_IGNORE_DIRECTION = 0.3;
     console.log('-----');
     elements.forEach( item => {
         console.log(`${item.id}  | ${item.force[0]}, ${item.force[1]}`);
@@ -94,9 +94,18 @@ function calcVelocity(){
         else{
             item.velocity[0] += item.force[0] * sharedResource.deltaTime / item.mass;
             item.velocity[1] += item.force[1] * sharedResource.deltaTime / item.mass;
-            if( Math.abs(item.velocity[0]) < _FRIC_IGNORE_DIRECTION ) item.velocity[0] = 0;
-            if( Math.abs(item.velocity[1]) < _FRIC_IGNORE_DIRECTION) item.velocity[1] = 0;
             item.absVelocity = Math.sqrt(item.velocity[0] * item.velocity[0] + item.velocity[1] * item.velocity[1]);
+            //[TODO]摩擦がかかっている状態で静止状態が続いているとみなせる場合は速度を０にする処理を追加してみる
+            if( ((item.velocity[0] * item.velocity[0] + item.velocity[1] * item.velocity[1]) < 0.01) && item.isEfficientFriction ){
+                if( item.cntRestingStateCausedFriction > 5 ){
+                    item.velocity[0] = 0;
+                    item.velocity[1] = 0;
+                    item.cntRestingStateCausedFriction = 0;
+                }
+                else{
+                    item.cntRestingStateCausedFriction++;
+                }
+            }
         }
         item.force[0] = 0;
         item.force[1] = 0;

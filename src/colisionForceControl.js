@@ -57,26 +57,29 @@ export default class colisionForceControl{
                 if( !forceBuffer[item.id] ) forceBuffer[item.id] = {force: [0, 0], item: item};
                 if( !forceBuffer[forceInfo.pair.id] ) forceBuffer[forceInfo.pair.id] = {force: [0, 0], item: forceInfo.pair};
 
+                let addForceX = 0, addForceY = 0;
+                
                 //静止摩擦力
-                let itemForceFaceDir = Math.abs(fricFaceDirection[0] * item.force[0] + fricFaceDirection[1] * item.force[1]);
-                let staticFrictionForce = Math.abs(this._default_staticFric * normForceLength);
-                //if( (itemForceFaceDir < staticFrictionForce) ){
-                //    let addForceX = fricFaceDirection[0] * itemForceFaceDir;
-                //    let addForceY = fricFaceDirection[1] * itemForceFaceDir;
+                //let itemForceFaceDir = Math.abs(fricFaceDirection[0] * item.force[0] + fricFaceDirection[1] * item.force[1]);
+                //let staticFrictionForce = Math.abs(this._default_staticFric * normForceLength);
+                //if( (itemForceFaceDir < staticFrictionForce) && (fricDirection < this._FRIC_IGNORE_DIRECTION && fricDirection > -this._FRIC_IGNORE_DIRECTION) ){
+                //    addForceX = fricFaceDirection[0] * itemForceFaceDir;
+                //    addForceY = fricFaceDirection[1] * itemForceFaceDir;
                 //    forceBuffer[item.id].force[0] += addForceX;
                 //    forceBuffer[item.id].force[1] += addForceY;
                 //}
                 //else{
-                    //動摩擦力を加える
-                    let addForceX = fricFaceDirection[0] * normForceLength * this._default_dynamicFric;
-                    let addForceY = fricFaceDirection[1] * normForceLength * this._default_dynamicFric;
-                    forceBuffer[item.id].force[0] += addForceX;
-                    forceBuffer[item.id].force[1] += addForceY;
+                  //動摩擦力を加える
+                  addForceX = fricFaceDirection[0] * normForceLength * this._default_dynamicFric;
+                  addForceY = fricFaceDirection[1] * normForceLength * this._default_dynamicFric;
+                  forceBuffer[item.id].force[0] += addForceX;
+                  forceBuffer[item.id].force[1] += addForceY;
 
-                    ////反力を加える
-                //    forceBuffer[forceInfo.pair.id].force[0] += -fricFaceDirection[0] * normForceLength * this._default_dynamicFric;
-                //    forceBuffer[forceInfo.pair.id].force[1] += -fricFaceDirection[1] * normForceLength * this._default_dynamicFric;
+                  //////反力を加える
+                  //  forceBuffer[forceInfo.pair.id].force[0] += -fricFaceDirection[0] * normForceLength * this._default_dynamicFric;
+                  //  forceBuffer[forceInfo.pair.id].force[1] += -fricFaceDirection[1] * normForceLength * this._default_dynamicFric;
                 //}
+
 
 
                 //console.log(`${item.id} ${forceInfo.pair.id} | ${addForceX} ${addForceY} | ${normForceLength} | ${forceInfo.vecFace[0]}, ${forceInfo.vecFace[1]}`);
@@ -85,6 +88,7 @@ export default class colisionForceControl{
 
         for(let key in forceBuffer){
             forceBuffer[key].item.addForce(forceBuffer[key].force);
+            forceBuffer[key].item.isEfficientFriction = true;
         }
     }
 

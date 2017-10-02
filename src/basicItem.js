@@ -15,6 +15,11 @@ export default class basicItem{
         this.pin = param.pin || false;
         this.proc = param.proc || [];
 
+        //摩擦関連
+        this.cntRestingStateCausedFriction = 0;
+        this.isEfficientFriction = false;
+
+        //最小力
         this.minForce = 0.0001
     }
 
