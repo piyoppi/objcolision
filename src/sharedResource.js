@@ -13,9 +13,12 @@ function addFrictionEfficient(materialName1, materialName2, value){
     dynamicFrictionEfficient [`${materialName2}-${materialName1}`] = value;
 }
 
+let deltaTime = 0.016;
+
 export default{
     keyboardInfo: new keyboard(),
-    deltaTime: 0.1,
+    deltaTime: deltaTime,
+    frameRate: 1.0 / deltaTime,
     dynamicFrictionEfficient: dynamicFrictionEfficient,
     addFrictionEfficient: addFrictionEfficient,
 }

@@ -7,6 +7,9 @@
 
 import sharedResource from "./../sharedResource.js"
 
+let anglePerCycle = 3.14159266 * 2;
+let anglePerCycleHalf = anglePerCycle / 2.0;
+
 export default class circleMove{
     constructor(param = {}){
         this._cyc = 0;
@@ -18,6 +21,7 @@ export default class circleMove{
         this.width = param.width || 50;
         this.height = param.height || 50;
         this.angularVelocity = param.angularVelocity || 6.0;
+        this.deltaAnglePerFrame = this.angularVelocity / sharedResource.frameRate;
 
         //状態管理
         this._angle = 0.0;
@@ -34,9 +38,20 @@ export default class circleMove{
         if( this._initialized) this.initialize();
 
         let squareAngularVelocity = this.angularVelocity * this.angularVelocity;
-        item.setForce([-this.width  * squareAngularVelocity * Math.cos(this._angle),
-                       -this.height * squareAngularVelocity * Math.sin(this._angle)], {forceAdd: true});
-        this._angle += this.angularVelocity;
+        let cos = Math.cos(this._angle);
+        let sin = Math.sin(this._angle);
+        //if( this._angle > anglePerCycleHalf ) {
+        //    sin = -sin;
+        //}
+
+        item.setForce([-this.width  * squareAngularVelocity * cos,
+                       -this.height * squareAngularVelocity * sin], {forceAdd: true});
+        this._angle += this.deltaAnglePerFrame;
+
+        //角度が一周したらリセットする
+        if( this._angle > anglePerCycle ){
+            this._angle = this._angle - anglePerCycle;
+        }
     }
 
 }

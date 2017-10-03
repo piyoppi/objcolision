@@ -5,6 +5,7 @@ import sharedResource from "./sharedResource.js"
 import addForceFromKey from "./addForceFromKey.js"
 import basicItem from "./basicItem.js"
 import linearMove from "./move_controller/linear_move.js"
+import circleMove from "./move_controller/circle_move.js"
 import gravity from "./gravity.js"
 
 let elements = [
@@ -74,6 +75,22 @@ let elements = [
         color: 'blue',
         pin: false,
         proc: [],
+    }),
+    new basicItem({
+        id: 5,
+        position: [600, 600],
+        width: 150,
+        height: 50,
+        force: [0.0, 0.0],
+        mass: 1.0,
+        velocity: [0.0, 0.0],
+        animate: null,
+        color: 'black',
+        pin: false,
+        disableGravity: true,
+        disableExternalForce: true,
+        proc: [new circleMove()],
+        materialName: "lift",
     }),
 ];
 
@@ -145,11 +162,7 @@ function freq(){
     gravity.add(elements); 
     //console.log(`pos: ${elements[0].position[0]}, ${elements[0].position[1]}   vel: ${elements[0].velocity[0]}, ${elements[0].velocity[1]}`);
     //window.requestAnimationFrame(freq);
-    setTimeout( freq, 10 );
+    setTimeout( freq, 16 );
 }
 
 freq();
-
-//-------------------------------------------
-
-//elements[0].force = [0, 0];
