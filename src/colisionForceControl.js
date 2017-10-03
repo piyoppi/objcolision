@@ -70,18 +70,18 @@ export default class colisionForceControl{
                 //    forceBuffer[item.id].force[1] += addForceY;
                 //}
                 //else{
-                  //動摩擦力を加える
-                  addForceX = fricFaceDirection[0] * normForceLength * this._default_dynamicFric;
-                  addForceY = fricFaceDirection[1] * normForceLength * this._default_dynamicFric;
-                  forceBuffer[item.id].force[0] += addForceX;
-                  forceBuffer[item.id].force[1] += addForceY;
+                
+                //動摩擦力を加える
+                let dynamicFricEfficient = sharedResource.dynamicFrictionEfficient[`${item.materialName}-${forceInfo.pair.materialName}`] || this._default_dynamicFric;
+                addForceX = fricFaceDirection[0] * normForceLength * dynamicFricEfficient;
+                addForceY = fricFaceDirection[1] * normForceLength * dynamicFricEfficient;
+                forceBuffer[item.id].force[0] += addForceX;
+                forceBuffer[item.id].force[1] += addForceY;
 
                   //////反力を加える
                   //  forceBuffer[forceInfo.pair.id].force[0] += -fricFaceDirection[0] * normForceLength * this._default_dynamicFric;
                   //  forceBuffer[forceInfo.pair.id].force[1] += -fricFaceDirection[1] * normForceLength * this._default_dynamicFric;
                 //}
-
-
 
                 //console.log(`${item.id} ${forceInfo.pair.id} | ${addForceX} ${addForceY} | ${normForceLength} | ${forceInfo.vecFace[0]}, ${forceInfo.vecFace[1]}`);
             });

@@ -16,6 +16,7 @@ export default class basicItem{
         this.disableGravity = param.disableGravity || false;
         this.disableExternalForce = param.disableExternalForce || false;
         this.proc = param.proc || [];
+        this.materialName = param.materialName || 'default';
 
         //摩擦関連
         this.cntRestingStateCausedFriction = 0;

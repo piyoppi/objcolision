@@ -22,6 +22,7 @@ let elements = [
         disableGravity: true,
         disableExternalForce: true,
         proc: [new linearMove({force: [80, 0]})],
+        materialName: "lift",
     }),
     new basicItem({
         id: 1,

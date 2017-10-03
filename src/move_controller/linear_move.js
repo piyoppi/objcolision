@@ -34,6 +34,7 @@ export default class linearMove{
 
         //切り替え地点に到着したら切り替えを実行する
         if( this._cyc === 0 ){
+            //（速度を一度0にしないと倍の力をかけなければいけなくなるのでリセットする）
             item.velocity[0] = 0;
             item.velocity[1] = 0;
             if( this._isTurning ){
