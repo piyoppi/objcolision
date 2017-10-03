@@ -31,6 +31,7 @@ export default class colisionForceControl{
             item.forceList.forEach( forceInfo => {
                 if( !forceInfo.vecFace ) return;
                 if( !forceInfo.pair ) return;
+                if( item.disableExternalForce ) return;
 
                 //垂直抗力を求める
                 let normForceLength = Math.abs(forceInfo.vecFace[0] * forceInfo.addX + forceInfo.vecFace[1] * forceInfo.addY);
@@ -115,6 +116,7 @@ export default class colisionForceControl{
     //****************************************************
     _modifySinking(items){
         items.forEach( item => {
+            if( item.disableExternalForce ) return;
             item.colisionInfoList.forEach( colisionInfo => {
                 //ばねとダンパ
                 if( colisionInfo.distX && colisionInfo.absDistX < colisionInfo.absDistY ){

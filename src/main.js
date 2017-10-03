@@ -10,7 +10,7 @@ import gravity from "./gravity.js"
 let elements = [
     new basicItem({
         id: 0,
-        position: [300, 220],
+        position: [300, 200],
         width: 150,
         height: 50,
         force: [0.0, 0.0],
@@ -20,7 +20,8 @@ let elements = [
         color: 'black',
         pin: false,
         disableGravity: true,
-        proc: [new linearMove({force: [1, 0]})],
+        disableExternalForce: true,
+        proc: [new linearMove({force: [80, 0]})],
     }),
     new basicItem({
         id: 1,
