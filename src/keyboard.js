@@ -14,6 +14,7 @@ export default class keyboard{
     }
 
     _onKeyDown(e){
+        e.preventDefault();
         let keyCodeStr = e.keyCode.toString();
         //console.log(`keyDown: ${keyCodeStr}`);
         if( !this.keys[keyCodeStr] ) this.keys[keyCodeStr] = {};

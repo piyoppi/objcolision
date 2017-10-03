@@ -10,10 +10,11 @@ import sharedResource from "./../sharedResource.js"
 export default class linearMove{
     constructor(param = {}){
         this._cyc = 0;
-        this._totalCycle = 0;
-        this._initialPosition = [0, 0];
         this._initialized = false;
         this._setForce = param.force || [0, 0];
+
+        //状態管理
+        this._initialPosition = [0, 0];
         this._isTurning = false;
         this._beforeSetForce = [0, 0];
 

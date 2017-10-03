@@ -79,7 +79,7 @@ let elements = [
 
 let dispElem = document.getElementById('display');
 let disp = new display(dispElem);
-let colisionDetect = new colisionDetector(500, 500, 2, elements);
+let colisionDetect = new colisionDetector(1500, 1500, 2, elements);
 let colisionForce = new colisionForceController(); 
 
 function render(){

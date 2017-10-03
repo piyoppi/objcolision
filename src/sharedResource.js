@@ -21,4 +21,4 @@ export default{
 }
 
 //摩擦係数を登録
-addFrictionEfficient('default', 'lift', 1.6);
+addFrictionEfficient('default', 'lift', 0.5);
