@@ -13,6 +13,7 @@ export default class basicItem{
         this.color = param.color || 'black';
         this.colisionInfoList = [];
         this.pin = param.pin || false;
+        this.disableGravity = param.disableGravity || false;
         this.proc = param.proc || [];
 
         //摩擦関連

@@ -4,6 +4,8 @@ import colisionForceController from "./colisionForceControl.js"
 import sharedResource from "./sharedResource.js"
 import addForceFromKey from "./addForceFromKey.js"
 import basicItem from "./basicItem.js"
+import linearMove from "./move_controller/linear_move.js"
+import gravity from "./gravity.js"
 
 let elements = [
     new basicItem({
@@ -16,7 +18,9 @@ let elements = [
         velocity: [0.0, 0.0],
         animate: null,
         color: 'black',
-        pin: true,
+        pin: false,
+        disableGravity: true,
+        proc: [new linearMove({force: [1, 0]})],
     }),
     new basicItem({
         id: 1,
@@ -136,13 +140,10 @@ function freq(){
     calcVelocity();
     setPosition();
     render();
+    gravity.add(elements); 
     //console.log(`pos: ${elements[0].position[0]}, ${elements[0].position[1]}   vel: ${elements[0].velocity[0]}, ${elements[0].velocity[1]}`);
     //window.requestAnimationFrame(freq);
     setTimeout( freq, 10 );
-
-    elements[1].addForce([0, 9.8 * elements[1].mass], null);
-    elements[3].addForce([0, 9.9 * elements[3].mass], null);
-    elements[4].addForce([0, 9.8 * elements[4].mass], null);
 }
 
 freq();
