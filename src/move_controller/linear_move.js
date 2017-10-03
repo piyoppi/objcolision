@@ -10,10 +10,12 @@ import sharedResource from "./../sharedResource.js"
 export default class linearMove{
     constructor(param = {}){
         this._cyc = 0;
+        this._totalCycle = 0;
         this._initialPosition = [0, 0];
         this._initialized = false;
         this._setForce = param.force || [0, 0];
         this._isTurning = false;
+        this._beforeSetForce = [0, 0];
 
         //移動パラメータ
         this._maxCycle = param.maxCycle || 100;
@@ -29,22 +31,16 @@ export default class linearMove{
     execute(item){
         if( this._initialized) this.initialize();
 
-        this._cyc++;
-        if( this._maxCycle < this._cyc ) this._cyc = 0;
-
         //切り替え地点に到着したら切り替えを実行する
         if( this._cyc === 0 ){
-            //（速度を一度0にしないと倍の力をかけなければいけなくなるのでリセットする）
-            item.velocity[0] = 0;
-            item.velocity[1] = 0;
-            if( this._isTurning ){
-                item.setForce(this._setForce, {forceAdd: true});
-            }
-            else{
-                item.setForce([-this._setForce[0], -this._setForce[1]], {forceAdd: true});
-            }
+            let setForce = this._isTurning ? [this._setForce[0], this._setForce[1]] : [-this._setForce[0], -this._setForce[1]];
+            item.setForce([setForce[0] - this._beforeSetForce[0], setForce[1] - this._beforeSetForce[1]], {forceAdd: true});
             this._isTurning = !this._isTurning;
+            this._beforeSetForce = setForce;
         }
+
+        this._cyc++;
+        if( this._maxCycle < this._cyc ) this._cyc = 0;
 
     }
 
