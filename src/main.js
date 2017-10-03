@@ -25,7 +25,7 @@ let elements = [
     }),
     new basicItem({
         id: 1,
-        position: [194, 180] ,
+        position: [290, 80] ,
         width: 50,
         height: 50,
         force: [0.0, 0.0],
