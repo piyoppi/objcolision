@@ -19,7 +19,7 @@ let elements = [
         velocity: [0.0, 0.0],
         animate: null,
         color: 'black',
-        pin: false,
+        pin: true,
         disableGravity: true,
         disableExternalForce: true,
         proc: [new linearMove({force: [80, 0]})],
@@ -35,7 +35,7 @@ let elements = [
         velocity: [0.0, 0.0],
         animate: null,
         color: 'red',
-        pin: false,
+        pin: true,
         proc: [new addForceFromKey()],
     }),
     new basicItem({
@@ -60,7 +60,7 @@ let elements = [
         velocity: [0.0, 0.0],
         animate: null,
         color: 'blue',
-        pin: false,
+        pin: true,
         proc: [],
     }),
     new basicItem({
@@ -73,7 +73,7 @@ let elements = [
         velocity: [0.0, 0.0],
         animate: null,
         color: 'blue',
-        pin: false,
+        pin: true,
         proc: [],
     }),
     new basicItem({
@@ -105,9 +105,9 @@ function render(){
 
 function calcVelocity(){
     let _FRIC_IGNORE_DIRECTION = 0.1;
-    console.log('-----');
+    //console.log('-----');
     elements.forEach( item => {
-        console.log(`${item.id}  | ${item.force[0]}, ${item.force[1]}`);
+        //console.log(`${item.id}  | ${item.force[0]}, ${item.force[1]}`);
         //console.log( item.forceList );
         if( item.pin ){
             item.velocity[0] = 0;
@@ -162,7 +162,7 @@ function freq(){
     gravity.add(elements); 
     //console.log(`pos: ${elements[0].position[0]}, ${elements[0].position[1]}   vel: ${elements[0].velocity[0]}, ${elements[0].velocity[1]}`);
     //window.requestAnimationFrame(freq);
-    setTimeout( freq, 16 );
+    setTimeout( freq, 100 );
 }
 
 freq();

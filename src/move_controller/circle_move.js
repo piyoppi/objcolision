@@ -18,8 +18,8 @@ export default class circleMove{
         this._beforeSetForce = [0, 0];
 
         //移動パラメータ
-        this.width = param.width || 50;
-        this.height = param.height || 50;
+        this.width = param.width || 25;
+        this.height = param.height || 25;
         this.angularVelocity = param.angularVelocity || 6.0;
         this.deltaAnglePerFrame = this.angularVelocity / sharedResource.frameRate;
 
@@ -43,6 +43,8 @@ export default class circleMove{
         //if( this._angle > anglePerCycleHalf ) {
         //    sin = -sin;
         //}
+
+        console.log(`${sin}, ${cos} ${this._angle}`);
 
         item.setForce([-this.width  * squareAngularVelocity * cos,
                        -this.height * squareAngularVelocity * sin], {forceAdd: true});

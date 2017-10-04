@@ -29,12 +29,12 @@ export default class basicItem{
     addForce(vecForce, vecFace = null, pair = null, option = {}){
         if( !option.forceAdd && this.disableExternalForce ) return;
 
-        let veclen = vecForce[0] * vecForce[0] + vecForce[1] * vecForce[1];
-        if( veclen > this.minForce ) {
+        //let veclen = vecForce[0] * vecForce[0] + vecForce[1] * vecForce[1];
+        //if( veclen > this.minForce ) {
             this.force[0] += vecForce[0];
             this.force[1] += vecForce[1];
             this.forceList.push( { addX: vecForce[0], addY: vecForce[1], vecFace: vecFace, pair: pair} );
-        }
+        //}
     }
 
     setForce(vecForce, option={}){
