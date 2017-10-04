@@ -18,9 +18,9 @@ export default class circleMove{
         this._beforeSetForce = [0, 0];
 
         //移動パラメータ
-        this.width = param.width || 100.0;
+        this.width = param.width || 150.0;
         this.height = param.height || 100.0;
-        this.angularVelocity = param.angularVelocity || 6.0;
+        this.angularVelocity = param.angularVelocity || 1;
         this.deltaAnglePerFrame = this.angularVelocity / sharedResource.frameRate;
 
         //状態管理
@@ -33,7 +33,8 @@ export default class circleMove{
         this._initialPosition[0] = item.position[0];
         this._initialPosition[1] = item.position[1];
         //初速を与える
-        item.velocity[0] = 0;
+        //（x方向の初速は、離散的な計算による誤差を考慮して回転中心をまたぐように初速を与えてみている状態）
+        item.velocity[0] = -this.width * this.angularVelocity * Math.sin(this.deltaAnglePerFrame/2); k
         item.velocity[1] = this.height * this.angularVelocity;
 
         this._initialized = true;
@@ -42,13 +43,13 @@ export default class circleMove{
     execute(item){
         if( !this._initialized) this.initialize(item);
 
+        this._angle += this.deltaAnglePerFrame;
         let squareAngularVelocity = this.angularVelocity * this.angularVelocity;
         let cos = Math.cos(this._angle);
         let sin = Math.sin(this._angle);
 
         item.setForce([-this.width  * squareAngularVelocity * cos,
                        -this.height * squareAngularVelocity * sin], {forceAdd: true});
-        this._angle += this.deltaAnglePerFrame;
 
         //角度が一周したらリセットする
         if( this._angle > anglePerCycle ){
