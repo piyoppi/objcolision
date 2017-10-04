@@ -20,7 +20,7 @@ export default class circleMove{
         //移動パラメータ
         this.width = param.width || 150.0;
         this.height = param.height || 100.0;
-        this.angularVelocity = param.angularVelocity || 1;
+        this.angularVelocity = param.angularVelocity || 2;
         this.deltaAnglePerFrame = this.angularVelocity / sharedResource.frameRate;
 
         //状態管理
@@ -33,8 +33,8 @@ export default class circleMove{
         this._initialPosition[0] = item.position[0];
         this._initialPosition[1] = item.position[1];
         //初速を与える
-        //（x方向の初速は、離散的な計算による誤差を考慮して回転中心をまたぐように初速を与えてみている状態）
-        item.velocity[0] = -this.width * this.angularVelocity * Math.sin(this.deltaAnglePerFrame/2); k
+        //（x方向の初速は、離散的な計算による誤差を考慮してX軸ををまたぐように初速を与えてみている状態）
+        item.velocity[0] = -this.width * this.angularVelocity * Math.sin(this.deltaAnglePerFrame/2);
         item.velocity[1] = this.height * this.angularVelocity;
 
         this._initialized = true;
