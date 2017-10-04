@@ -18,33 +18,33 @@ export default class circleMove{
         this._beforeSetForce = [0, 0];
 
         //移動パラメータ
-        this.width = param.width || 25;
-        this.height = param.height || 25;
+        this.width = param.width || 100.0;
+        this.height = param.height || 100.0;
         this.angularVelocity = param.angularVelocity || 6.0;
         this.deltaAnglePerFrame = this.angularVelocity / sharedResource.frameRate;
 
         //状態管理
         this._angle = 0.0;
+        this._initialized = false;
     }
 
     initialize(item){
         //初期地点を控えておく
         this._initialPosition[0] = item.position[0];
         this._initialPosition[1] = item.position[1];
+        //初速を与える
+        item.velocity[0] = 0;
+        item.velocity[1] = this.height * this.angularVelocity;
+
         this._initialized = true;
     }
 
     execute(item){
-        if( this._initialized) this.initialize();
+        if( !this._initialized) this.initialize(item);
 
         let squareAngularVelocity = this.angularVelocity * this.angularVelocity;
         let cos = Math.cos(this._angle);
         let sin = Math.sin(this._angle);
-        //if( this._angle > anglePerCycleHalf ) {
-        //    sin = -sin;
-        //}
-
-        console.log(`${sin}, ${cos} ${this._angle}`);
 
         item.setForce([-this.width  * squareAngularVelocity * cos,
                        -this.height * squareAngularVelocity * sin], {forceAdd: true});
@@ -54,6 +54,7 @@ export default class circleMove{
         if( this._angle > anglePerCycle ){
             this._angle = this._angle - anglePerCycle;
         }
+
     }
 
 }

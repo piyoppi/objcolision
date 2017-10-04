@@ -23,18 +23,18 @@ export default class basicItem{
         this.isEfficientFriction = false;
 
         //最小力
-        this.minForce = 0.0001
+        this.minForce = 0.0001;
+
+        //１ステップ前のの速度
+        this.beforeVelocity = [0, 0];
     }
 
     addForce(vecForce, vecFace = null, pair = null, option = {}){
         if( !option.forceAdd && this.disableExternalForce ) return;
 
-        //let veclen = vecForce[0] * vecForce[0] + vecForce[1] * vecForce[1];
-        //if( veclen > this.minForce ) {
-            this.force[0] += vecForce[0];
-            this.force[1] += vecForce[1];
-            this.forceList.push( { addX: vecForce[0], addY: vecForce[1], vecFace: vecFace, pair: pair} );
-        //}
+        this.force[0] += vecForce[0];
+        this.force[1] += vecForce[1];
+        this.forceList.push( { addX: vecForce[0], addY: vecForce[1], vecFace: vecFace, pair: pair} );
     }
 
     setForce(vecForce, option={}){

@@ -78,8 +78,8 @@ let elements = [
     }),
     new basicItem({
         id: 5,
-        position: [600, 600],
-        width: 150,
+        position: [700, 600],
+        width: 50,
         height: 50,
         force: [0.0, 0.0],
         mass: 1.0,
@@ -138,9 +138,11 @@ function calcVelocity(){
 
 function setPosition(){
     elements.forEach( item => {
-        item.position[0] += item.velocity[0] * sharedResource.deltaTime;
-        item.position[1] += item.velocity[1] * sharedResource.deltaTime;
+        item.position[0] += 0.5 * (item.velocity[0] + item.beforeVelocity[0]) * sharedResource.deltaTime;
+        item.position[1] += 0.5 * (item.velocity[1] + item.beforeVelocity[1]) * sharedResource.deltaTime;
         if( (item.velocity[0] != 0) || (item.velocity[1] != 0 ) ) colisionDetect.updateMortonTree(item);
+        item.beforeVelocity[0] = item.velocity[0];
+        item.beforeVelocity[1] = item.velocity[1];
     });
 }
 
@@ -162,7 +164,7 @@ function freq(){
     gravity.add(elements); 
     //console.log(`pos: ${elements[0].position[0]}, ${elements[0].position[1]}   vel: ${elements[0].velocity[0]}, ${elements[0].velocity[1]}`);
     //window.requestAnimationFrame(freq);
-    setTimeout( freq, 100 );
+    setTimeout( freq, 10 );
 }
 
 freq();
