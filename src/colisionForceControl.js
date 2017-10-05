@@ -2,9 +2,9 @@ import sharedResource from "./sharedResource.js"
 export default class colisionForceControl{
     constructor(){
         this._default_kx = 4;                   //めり込み回避ばね定数
-        this._default_ky = 13;                   //めり込み回避ばね定数
+        this._default_ky = 600;                   //めり込み回避ばね定数
         this._default_cx = 0;                   //めり込み回避減衰定数
-        this._default_cy = 3;                   //めり込み回避減衰定数
+        this._default_cy = 20;                   //めり込み回避減衰定数
         this._default_e = 0.3;
         this._default_dynamicFric = 0.1;
         this._default_staticFric = 0.2;

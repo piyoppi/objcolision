@@ -5,7 +5,7 @@
 //      オブジェクトに重力を与えます
 //
 
-let gravityAcceleration = 10;      //重力加速度
+let gravityAcceleration = 1000;      //重力加速度
 export default class gravity{
     static add(items){
         items.forEach( item => {

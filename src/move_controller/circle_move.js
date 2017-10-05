@@ -34,7 +34,7 @@ export default class circleMove{
         this._initialPosition[1] = item.position[1];
         //初速を与える
         //（x方向の初速は、離散的な計算による誤差を考慮してX軸ををまたぐように初速を与えてみている状態）
-        item.velocity[0] = -this.width * this.angularVelocity * Math.sin(this.deltaAnglePerFrame/2);
+        item.velocity[0] = this.width * this.angularVelocity * Math.sin(this.deltaAnglePerFrame/2);
         item.velocity[1] = this.height * this.angularVelocity;
 
         this._initialized = true;
@@ -43,13 +43,13 @@ export default class circleMove{
     execute(item){
         if( !this._initialized) this.initialize(item);
 
-        this._angle += this.deltaAnglePerFrame;
         let squareAngularVelocity = this.angularVelocity * this.angularVelocity;
         let cos = Math.cos(this._angle);
         let sin = Math.sin(this._angle);
 
         item.setForce([-this.width  * squareAngularVelocity * cos,
                        -this.height * squareAngularVelocity * sin], {forceAdd: true});
+        this._angle += this.deltaAnglePerFrame;
 
         //角度が一周したらリセットする
         if( this._angle > anglePerCycle ){

@@ -27,7 +27,7 @@ let elements = [
     }),
     new basicItem({
         id: 1,
-        position: [290, 80] ,
+        position: [90, 80],
         width: 50,
         height: 50,
         force: [0.0, 0.0],
@@ -35,8 +35,8 @@ let elements = [
         velocity: [0.0, 0.0],
         animate: null,
         color: 'red',
-        pin: true,
-        proc: [new addForceFromKey()],
+        pin: false,
+        proc: [new addForceFromKey({forceX: 301, forceY: 10000})],
     }),
     new basicItem({
         id: 2,
@@ -89,7 +89,7 @@ let elements = [
         pin: false,
         disableGravity: true,
         disableExternalForce: true,
-        proc: [new circleMove({angularVelocity: 3.14})],
+        proc: [new circleMove({angularVelocity: 1})],
         materialName: "lift",
     }),
 ];
@@ -162,6 +162,8 @@ function freq(){
     setPosition();
     render();
     gravity.add(elements); 
+    let frameRate = sharedResource.frameRateManager.completeFrame();
+    console.log(frameRate);
     //console.log(`pos: ${elements[0].position[0]}, ${elements[0].position[1]}   vel: ${elements[0].velocity[0]}, ${elements[0].velocity[1]}`);
     //window.requestAnimationFrame(freq);
     setTimeout( freq, 16 );
