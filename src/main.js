@@ -89,7 +89,7 @@ let elements = [
         pin: false,
         disableGravity: true,
         disableExternalForce: true,
-        proc: [new circleMove()],
+        proc: [new circleMove({angularVelocity: 3.14})],
         materialName: "lift",
     }),
 ];
@@ -164,7 +164,7 @@ function freq(){
     gravity.add(elements); 
     //console.log(`pos: ${elements[0].position[0]}, ${elements[0].position[1]}   vel: ${elements[0].velocity[0]}, ${elements[0].velocity[1]}`);
     //window.requestAnimationFrame(freq);
-    setTimeout( freq, 10 );
+    setTimeout( freq, 16 );
 }
 
 freq();
