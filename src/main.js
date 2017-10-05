@@ -36,7 +36,7 @@ let elements = [
         animate: null,
         color: 'red',
         pin: false,
-        proc: [new addForceFromKey({forceX: 301, forceY: 10000})],
+        proc: [new addForceFromKey({forceX: 301, forceY: 10000, maxVelocityX: 150, maxVelocityY: 50})],
     }),
     new basicItem({
         id: 2,

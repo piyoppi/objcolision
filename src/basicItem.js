@@ -25,7 +25,7 @@ export default class basicItem{
         //最小力
         this.minForce = 0.0001;
 
-        //１ステップ前のの速度
+        //１ステップ前の速度
         this.beforeVelocity = [0, 0];
     }
 
