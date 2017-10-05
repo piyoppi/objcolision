@@ -5,6 +5,8 @@
 //      オブジェクト同士の衝突を検知します
 //
 
+import sharedResource from "./sharedResource.js"
+
 export default class colisionDetector {
     constructor(fieldWidth, fieldHeight, level, items){
         this._fieldWidth = fieldWidth;
@@ -81,7 +83,7 @@ export default class colisionDetector {
         items.forEach( item => {
             //あたり判定フラグの初期化
             item.colisionInfoList = [];
-            //console.log(`id: ${item.id}  |  mortonNumber: ${mortonInfo.mortonNum}, level: ${mortonInfo.level}`);
+            item.isGround = false;
         });
 
         //木の探索
@@ -159,7 +161,11 @@ export default class colisionDetector {
             if( (absdistY > item1.height) || (absdistY > item2.height) ) distY = null;
             if( !distX || (absdistX > absdistY) ) normVec[0] = 0;
             if( !distY || (absdistX < absdistY) ) normVec[1] = 0;
-            //console.log(`hit: idx: ${item1.id},${item2.id}   distX: ${distX}   distY: ${distY}`);
+
+           item1.isGround |= normVec[0] * sharedResource.gravityDirection[0] + normVec[1] * sharedResource.gravityDirection[1] >= 0;
+           item2.isGround |= -normVec[0] * sharedResource.gravityDirection[0] - normVec[1] * sharedResource.gravityDirection[1] >= 0;
+            console.log(`hit: idx: ${item1.id},${item2.id}   distX: ${distX}   distY: ${distY}  isGround: ${item1.isGround} ${item2.isGround}`);
+
             //衝突側オブジェクトの衝突情報を記録
             item1.colisionInfoList.push( {
                 pair: item2,

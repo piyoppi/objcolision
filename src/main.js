@@ -36,7 +36,7 @@ let elements = [
         animate: null,
         color: 'red',
         pin: false,
-        proc: [new addForceFromKey({forceX: 301, forceY: 10000, maxVelocityX: 150, maxVelocityY: 50})],
+        proc: [new addForceFromKey({forceX: 301, forceY: 40000, maxVelocityX: 150, maxVelocityY: 1000})],
     }),
     new basicItem({
         id: 2,
@@ -163,7 +163,7 @@ function freq(){
     render();
     gravity.add(elements); 
     let frameRate = sharedResource.frameRateManager.completeFrame();
-    console.log(frameRate);
+    //console.log(frameRate);
     //console.log(`pos: ${elements[0].position[0]}, ${elements[0].position[1]}   vel: ${elements[0].velocity[0]}, ${elements[0].velocity[1]}`);
     //window.requestAnimationFrame(freq);
     setTimeout( freq, 16 );

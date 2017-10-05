@@ -23,6 +23,7 @@ export default{
     frameRate: 1.0 / deltaTime,
     dynamicFrictionEfficient: dynamicFrictionEfficient,
     addFrictionEfficient: addFrictionEfficient,
+    gravityDirection: [0, 1],
 }
 
 //摩擦係数を登録

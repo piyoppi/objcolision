@@ -1,22 +1,23 @@
 export default class basicItem{
     
     constructor(param){
-        this.id = param.id || 0;
-        this.position = param.position || [0, 0];
-        this.width = param.width || 50;
-        this.height = param.height || 50;
-        this.force = param.force || [0.0, 0.0];
-        this.forceList = [];
-        this.mass = param.mass || 1.0;
-        this.velocity = param.velocity || [0.0, 0.0];
-        this.animate = null;
-        this.color = param.color || 'black';
-        this.colisionInfoList = [];
+        this.id = param.id || 0;                                                //識別番号（一意である必要がある）
+        this.position = param.position || [0, 0];                               //位置
+        this.width = param.width || 50;                                         //幅
+        this.height = param.height || 50;                                       //高さ
+        this.force = param.force || [0.0, 0.0];                                 //力
+        this.forceList = [];                                                    //力リスト
+        this.mass = param.mass || 1.0;                                          //質量
+        this.velocity = param.velocity || [0.0, 0.0];                           //速度
+        this.animate = null;                                                    //アニメーション
+        this.color = param.color || 'black';                                    //色
+        this.colisionInfoList = [];                                             //あたり判定情報
+        this.isGround = false;                                                  //接地状態
         this.pin = param.pin || false;
-        this.disableGravity = param.disableGravity || false;
-        this.disableExternalForce = param.disableExternalForce || false;
-        this.proc = param.proc || [];
-        this.materialName = param.materialName || 'default';
+        this.disableGravity = param.disableGravity || false;                    //重力の無効
+        this.disableExternalForce = param.disableExternalForce || false;        //外力の無効
+        this.proc = param.proc || [];                                           //追加処理
+        this.materialName = param.materialName || 'default';                    //素材情報
 
         //摩擦関連
         this.cntRestingStateCausedFriction = 0;

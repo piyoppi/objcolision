@@ -14,6 +14,8 @@ export default class addForceFromKey{
         this._addForceY = param.forceY || 0;
         this._maxVelocityX = param.maxVelocityX || 0;
         this._maxVelocityY = param.maxVelocityY || 0;
+
+        this._ignoreCountY = 0;
     }
 
     execute(item){
@@ -28,9 +30,16 @@ export default class addForceFromKey{
             item.force[0] += this._addForceX;
             flgAddForce[0] = true;
         }
-        else if( this.keyReceiver.keyInformation.up.isKeyDown ){
-            item.force[1] -= this._addForceY;
-            flgAddForce[1] = true;
+        if( this.keyReceiver.keyInformation.up.isKeyDown ){
+            if( item.isGround && !this._ignoreCountY ){
+                item.force[1] -= this._addForceY;
+                flgAddForce[1] = true;
+                this._ignoreCountY = 10;
+            }
+            else if(this._ignoreCountY){
+                //あたり判定のタイミングによって2回接地判定がされる場合があるので、2回連続で加速しないようにラッチをつけた
+                this._ignoreCountY--;
+            }
         }
 
 
