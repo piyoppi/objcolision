@@ -87,9 +87,10 @@ export default class colisionDetector {
         });
 
         //木の探索
-        for( let lv = 0; lv <= this._level; lv++ ){
-            this.mortonCheck(lv, 0);
-        }
+        //for( let lv = 0; lv <= this._level; lv++ ){
+        //    this.mortonCheck(lv, 0);
+        //}
+        this.mortonCheck(0, 0);
     }
 
     //****************************************************
