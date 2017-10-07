@@ -2,7 +2,7 @@ import sharedResource from "./sharedResource.js"
 export default class colisionForceControl{
     constructor(){
         this._default_kx = 4;                   //めり込み回避ばね定数
-        this._default_ky = 1600;                   //めり込み回避ばね定数
+        this._default_ky = 1500;                   //めり込み回避ばね定数
         this._default_cx = 0;                   //めり込み回避減衰定数
         this._default_cy = 40;                   //めり込み回避減衰定数
         this._default_e = 0.3;
@@ -64,14 +64,14 @@ export default class colisionForceControl{
                 let itemForceFaceDir = Math.abs(fricFaceDirection[0] * item.force[0] + fricFaceDirection[1] * item.force[1]);
                 let staticFrictionForce = Math.abs(this._default_staticFric * normForceLength);
                 //if( item.id === 1 ) console.log(`${forceInfo.addY} ${staticFrictionForce} ${itemForceFaceDir}`);
-                //if( (itemForceFaceDir < staticFrictionForce) ){ //&& (fricDirection < this._FRIC_IGNORE_DIRECTION && fricDirection > -this._FRIC_IGNORE_DIRECTION) ){
-                //    addForceX = fricFaceDirection[0] * itemForceFaceDir;
-                //    addForceY = fricFaceDirection[1] * itemForceFaceDir;
-                //    forceBuffer[item.id].force[0] += addForceX;
-                //    forceBuffer[item.id].force[1] += addForceY;
-                //    //console.log(`[STATIC]  ${fricDirection}, ${itemForceFaceDir}, ${staticFrictionForce}`);
-                //}
-                //else{
+                if( (itemForceFaceDir < staticFrictionForce) && item.velocity[0] === 0 && item.velocity[1] === 0 ){ //&& (fricDirection < this._FRIC_IGNORE_DIRECTION && fricDirection > -this._FRIC_IGNORE_DIRECTION) ){
+                    addForceX = fricFaceDirection[0] * itemForceFaceDir;
+                    addForceY = fricFaceDirection[1] * itemForceFaceDir;
+                    forceBuffer[item.id].force[0] += addForceX;
+                    forceBuffer[item.id].force[1] += addForceY;
+                    //console.log(`[STATIC]  ${fricDirection}, ${itemForceFaceDir}, ${staticFrictionForce}`);
+                }
+                else{
                 
                     let dynamicFricEfficient = sharedResource.dynamicFrictionEfficient[`${item.materialName}-${forceInfo.pair.materialName}`] || this._default_dynamicFric;
                     addForceX = fricFaceDirection[0] * normForceLength * dynamicFricEfficient;
@@ -92,7 +92,7 @@ export default class colisionForceControl{
                     //////反力を加える
                     //  forceBuffer[forceInfo.pair.id].force[0] += -fricFaceDirection[0] * normForceLength * this._default_dynamicFric;
                     //  forceBuffer[forceInfo.pair.id].force[1] += -fricFaceDirection[1] * normForceLength * this._default_dynamicFric;
-                //}
+                }
 
                 //console.log(`${item.id} ${forceInfo.pair.id} | ${addForceX} ${addForceY} | ${normForceLength} | ${forceInfo.vecFace[0]}, ${forceInfo.vecFace[1]}`);
             });
