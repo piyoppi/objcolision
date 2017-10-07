@@ -2,7 +2,7 @@ import sharedResource from "./sharedResource.js"
 export default class colisionForceControl{
     constructor(){
         this._default_kx = 140;                   //めり込み回避ばね定数
-        this._default_ky1 = 1000;                   //めり込み回避ばね定数
+        this._default_ky1 = 1300;                   //めり込み回避ばね定数
         this._default_ky2 = 800;                   //めり込み回避ばね定数
         this._default_cx = 10;                   //めり込み回避減衰定数
         this._default_cy1 = 50;                   //めり込み回避減衰定数
@@ -101,7 +101,7 @@ export default class colisionForceControl{
         });
 
         for(let key in forceBuffer){
-            forceBuffer[key].item.addForce(forceBuffer[key].force);
+            forceBuffer[key].item.addForce(forceBuffer[key].force, null, null, {description: "fric"});
             forceBuffer[key].item.isEfficientFriction = true;
         }
     }
@@ -116,10 +116,11 @@ export default class colisionForceControl{
                 let colisionMassParam = (1.0 + this._default_e) * (item.mass * colisionInfo.pair.mass) / (item.mass + colisionInfo.pair.mass);
                 let addForceX = colisionMassParam * relativeVelocity[0] / this._deltaTime * -colisionInfo.colisionFaceVec[0];
                 let addForceY = colisionMassParam * relativeVelocity[1] / this._deltaTime * -colisionInfo.colisionFaceVec[1];
-                //if( item.id === 1 && colisionInfo.pair.id === 3) console.log(`${item.id} ${colisionInfo.pair.id} | ${-colisionInfo.colisionFaceVec[0]} ${-colisionInfo.colisionFaceVec[1]} | ${addForceX} ${addForceY}`);
-                item.addForce([addForceX, addForceY], colisionInfo.colisionFaceVec, colisionInfo.pair);
+                //if( item.id === 1 && colisionInfo.pair.id === 2) console.log(`${item.id} ${colisionInfo.pair.id} | ${-colisionInfo.colisionFaceVec[0]} ${-colisionInfo.colisionFaceVec[1]} | ${addForceX} ${addForceY}`);
+                //if( item.id === 2 && colisionInfo.pair.id === 1) console.log(`${item.id} ${colisionInfo.pair.id} | ${-colisionInfo.colisionFaceVec[0]} ${-colisionInfo.colisionFaceVec[1]} | ${addForceX} ${addForceY}`);
+                item.addForce([addForceX, addForceY], colisionInfo.colisionFaceVec, colisionInfo.pair, {description: "changeForce"});
                 //被衝突オブジェクトには反作用の力が加わる
-                colisionInfo.pair.addForce([-addForceX, -addForceY], [-colisionInfo.colisionFaceVec[0], -colisionInfo.colisionFaceVec[1]], item);
+                colisionInfo.pair.addForce([-addForceX, -addForceY], [-colisionInfo.colisionFaceVec[0], -colisionInfo.colisionFaceVec[1]], item, {description: "changeForce"});
             });
         });
     }
@@ -133,17 +134,17 @@ export default class colisionForceControl{
             item.colisionInfoList.forEach( colisionInfo => {
                 //ばねとダンパ(動かない物体とのめり込み判定の場合は位置も修正してしまう)
                 if( colisionInfo.distX && colisionInfo.absDistX < colisionInfo.absDistY ){
-                    item.addForce([-this._default_cx * item.velocity[0] - this._default_kx * colisionInfo.distX, 0], colisionInfo.colisionFaceVec, colisionInfo.pair);
+                    item.addForce([-this._default_cx * item.velocity[0] - this._default_kx * colisionInfo.distX, 0], colisionInfo.colisionFaceVec, colisionInfo.pair, {description: "modifySinking_X1"});
                     //if( colisionInfo.pair.pin ){
                     //    item.position[0] -= colisionInfo.distX;
                     //}
                 }
                 else if( colisionInfo.distY ){
                     if (colisionInfo.distY > 0) {
-                        item.addForce([0, -this._default_cy1 * item.velocity[1] - this._default_ky1 * colisionInfo.distY], colisionInfo.colisionFaceVec, colisionInfo.pair);
+                        item.addForce([0, -this._default_cy1 * item.velocity[1] - this._default_ky1 * colisionInfo.distY], colisionInfo.colisionFaceVec, colisionInfo.pair, {description: "modifySinking_Y1"});
                     }
                     else{
-                        item.addForce([0, -this._default_cy2 * item.velocity[1] - this._default_ky2 * colisionInfo.distY], colisionInfo.colisionFaceVec, colisionInfo.pair);
+                        item.addForce([0, -this._default_cy2 * item.velocity[1] - this._default_ky2 * colisionInfo.distY], colisionInfo.colisionFaceVec, colisionInfo.pair, {description: "modifySinking_Y2"});
                     }
                     //if( colisionInfo.pair.pin ){
                     //    item.position[1] -= colisionInfo.distY;
