@@ -14,10 +14,12 @@ export default class keyboard{
     }
 
     _onKeyDown(e){
-        e.preventDefault();
         let keyCodeStr = e.keyCode.toString();
         if( !this.keys[keyCodeStr] ) this.keys[keyCodeStr] = {};
         this.keys[keyCodeStr].isKeyDown = true;
+        if( !e.ctrlKey ){
+            e.preventDefault();
+        }
     }
 
     _onKeyUp(e){

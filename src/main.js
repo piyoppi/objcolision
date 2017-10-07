@@ -27,7 +27,7 @@ let elements = [
     }),
     new basicItem({
         id: 1,
-        position: [90, 80],
+        position: [90, 180],
         width: 50,
         height: 50,
         force: [0.0, 0.0],
@@ -89,7 +89,7 @@ let elements = [
         pin: false,
         disableGravity: true,
         disableExternalForce: true,
-        proc: [new circleMove({angularVelocity: 1})],
+        //proc: [new circleMove({angularVelocity: 1})],
         materialName: "lift",
     }),
 ];
@@ -105,10 +105,10 @@ function render(){
 
 function calcVelocity(){
     let _FRIC_IGNORE_DIRECTION = 0.1;
-    //console.log('-----');
+    console.log('-----');
     elements.forEach( item => {
         //console.log(`${item.id}  | ${item.force[0]}, ${item.force[1]}`);
-        //console.log( item.forceList );
+        console.log( item.forceList );
         if( item.pin ){
             item.velocity[0] = 0;
             item.velocity[1] = 0;
@@ -168,5 +168,5 @@ function freq(){
     //window.requestAnimationFrame(freq);
     setTimeout( freq, 16 );
 }
-
+//elements[1].force=[10000, 0];
 freq();
