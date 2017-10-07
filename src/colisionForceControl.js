@@ -1,11 +1,13 @@
 import sharedResource from "./sharedResource.js"
 export default class colisionForceControl{
     constructor(){
-        this._default_kx = 4;                   //めり込み回避ばね定数
-        this._default_ky = 1500;                   //めり込み回避ばね定数
-        this._default_cx = 0;                   //めり込み回避減衰定数
-        this._default_cy = 40;                   //めり込み回避減衰定数
-        this._default_e = 0.3;
+        this._default_kx = 140;                   //めり込み回避ばね定数
+        this._default_ky1 = 1000;                   //めり込み回避ばね定数
+        this._default_ky2 = 800;                   //めり込み回避ばね定数
+        this._default_cx = 10;                   //めり込み回避減衰定数
+        this._default_cy1 = 50;                   //めり込み回避減衰定数
+        this._default_cy2 = 20;                   //めり込み回避減衰定数
+        this._default_e = 0.0;
         this._default_dynamicFric = 0.1;
         this._default_staticFric = 0.4;
         this._deltaTime = sharedResource.deltaTime;
@@ -129,14 +131,23 @@ export default class colisionForceControl{
         items.forEach( item => {
             if( item.disableExternalForce ) return;
             item.colisionInfoList.forEach( colisionInfo => {
-                //ばねとダンパ
+                //ばねとダンパ(動かない物体とのめり込み判定の場合は位置も修正してしまう)
                 if( colisionInfo.distX && colisionInfo.absDistX < colisionInfo.absDistY ){
                     item.addForce([-this._default_cx * item.velocity[0] - this._default_kx * colisionInfo.distX, 0], colisionInfo.colisionFaceVec, colisionInfo.pair);
-                    //console.log(`${item.force[0]} ${item.force[1]}`);
+                    //if( colisionInfo.pair.pin ){
+                    //    item.position[0] -= colisionInfo.distX;
+                    //}
                 }
                 else if( colisionInfo.distY ){
-                    item.addForce([0, -this._default_cy * item.velocity[1]-this._default_ky * colisionInfo.distY], colisionInfo.colisionFaceVec, colisionInfo.pair);
-                    //console.log(`${item.force[0]} ${item.force[1]}`);
+                    if (colisionInfo.distY > 0) {
+                        item.addForce([0, -this._default_cy1 * item.velocity[1] - this._default_ky1 * colisionInfo.distY], colisionInfo.colisionFaceVec, colisionInfo.pair);
+                    }
+                    else{
+                        item.addForce([0, -this._default_cy2 * item.velocity[1] - this._default_ky2 * colisionInfo.distY], colisionInfo.colisionFaceVec, colisionInfo.pair);
+                    }
+                    //if( colisionInfo.pair.pin ){
+                    //    item.position[1] -= colisionInfo.distY;
+                    //}
                 }
             });
         });
