@@ -163,10 +163,19 @@ export default class colisionDetector {
             if( !distX || (absdistX > absdistY) ) normVec[0] = 0;
             if( !distY || (absdistX < absdistY) ) normVec[1] = 0;
 
-           item1.isGround |= normVec[0] * sharedResource.gravityDirection[0] + normVec[1] * sharedResource.gravityDirection[1] > 0;
-           item2.isGround |= -normVec[0] * sharedResource.gravityDirection[0] - normVec[1] * sharedResource.gravityDirection[1] > 0;
-           //console.log(`hit: idx: ${item1.id},${item2.id}   distX: ${distX}   distY: ${distY}  isGround: ${item1.isGround} ${item2.isGround}`);
-           //console.log(`hit: idx: ${item1.id}, ${item2.id}   norm: ${normVec[0]}, ${normVec[1]}  isGround: ${item1.isGround} ${item2.isGround}`);
+            let isGroundItem1 = normVec[0] * sharedResource.gravityDirection[0] + normVec[1] * sharedResource.gravityDirection[1] > 0;
+            let isGroundItem2 = -normVec[0] * sharedResource.gravityDirection[0] - normVec[1] * sharedResource.gravityDirection[1] > 0;
+            item1.isGround |= isGroundItem1;
+            item2.isGround |= isGroundItem2;
+
+            if( isGroundItem1 && item1._gravityForce ) {
+                item1._gravityForce.vecFace = normVec;
+                item1._gravityForce.pair = item2;
+            }
+            if( isGroundItem2 && item2._gravityForce ) {
+                item2._gravityForce.vecFace = [-normVec[0], -normVec[1]];
+                item2._gravityForce.pair = item1;
+            }
 
             //衝突側オブジェクトの衝突情報を記録
             item1.colisionInfoList.push( {

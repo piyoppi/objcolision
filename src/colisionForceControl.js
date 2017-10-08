@@ -19,6 +19,7 @@ export default class colisionForceControl{
 
     changeForce(items){
         this._changeForce(items);
+        this._reactionForce(items);
         this._modifySinking(items);
         this._changeFriction(items);
     }
@@ -38,19 +39,17 @@ export default class colisionForceControl{
                 //垂直抗力を求める
                 let normForceLength = Math.abs(forceInfo.vecFace[0] * forceInfo.addX + forceInfo.vecFace[1] * forceInfo.addY);
 
-                //摩擦面の法線ベクトルを90度回転させると摩擦面ベクトルが得られる
+                //摩擦面の法線ベクトルを90度回転させると摩擦面ベクトルが得られる（摩擦方向を向くベクトル）
                 let fricFaceDirection = [forceInfo.vecFace[0] * this._COS_RIGHT_ANGLE - forceInfo.vecFace[1] * this._SIN_RIGHT_ANGLE,
                                          forceInfo.vecFace[0] * this._SIN_RIGHT_ANGLE + forceInfo.vecFace[1] * this._COS_RIGHT_ANGLE];
 
                 //物体が動く方向を確認する
-                let tempVelocity = [item.velocity[0] - forceInfo.pair.velocity[0], //+ item.force[0] * sharedResource.deltaTime / item.mass,
-                                    item.velocity[1] - forceInfo.pair.velocity[1]];// + item.force[1] * sharedResource.deltaTime / item.mass];
+                let tempVelocity = [item.velocity[0] - forceInfo.pair.velocity[0], 
+                                    item.velocity[1] - forceInfo.pair.velocity[1]];
 
                 //摩擦面ベクトルを物体の動く方向に合わせて修正する
                 let fricDirection = forceInfo.vecFace[0] * tempVelocity[1] - forceInfo.vecFace[1] * tempVelocity[0];
-                if( fricDirection < this._FRIC_IGNORE_DIRECTION && fricDirection > -this._FRIC_IGNORE_DIRECTION ){
-                    return;
-                }
+                //if( fricDirection < this._FRIC_IGNORE_DIRECTION && fricDirection > -this._FRIC_IGNORE_DIRECTION ) return;
                 if( fricDirection > 0 ){
                     fricFaceDirection[0] = -fricFaceDirection[0];
                     fricFaceDirection[1] = -fricFaceDirection[1];
@@ -65,36 +64,39 @@ export default class colisionForceControl{
                 //静止摩擦力
                 let itemForceFaceDir = Math.abs(fricFaceDirection[0] * item.force[0] + fricFaceDirection[1] * item.force[1]);
                 let staticFrictionForce = Math.abs(this._default_staticFric * normForceLength);
-                //if( item.id === 1 ) console.log(`${forceInfo.addY} ${staticFrictionForce} ${itemForceFaceDir}`);
-                if( (itemForceFaceDir < staticFrictionForce) && item.velocity[0] === 0 && item.velocity[1] === 0 ){ //&& (fricDirection < this._FRIC_IGNORE_DIRECTION && fricDirection > -this._FRIC_IGNORE_DIRECTION) ){
-                    addForceX = fricFaceDirection[0] * itemForceFaceDir;
-                    addForceY = fricFaceDirection[1] * itemForceFaceDir;
-                    forceBuffer[item.id].force[0] += addForceX;
-                    forceBuffer[item.id].force[1] += addForceY;
-                    //console.log(`[STATIC]  ${fricDirection}, ${itemForceFaceDir}, ${staticFrictionForce}`);
-                }
-                else{
-                
-                    let dynamicFricEfficient = sharedResource.dynamicFrictionEfficient[`${item.materialName}-${forceInfo.pair.materialName}`] || this._default_dynamicFric;
-                    addForceX = fricFaceDirection[0] * normForceLength * dynamicFricEfficient;
-                    addForceY = fricFaceDirection[1] * normForceLength * dynamicFricEfficient;
+                //if( (itemForceFaceDir < staticFrictionForce) &&
+                //    Math.abs(item.velocity[0] - forceInfo.pair.velocity[0]) == 0 &&
+                //    Math.abs(item.velocity[1] - forceInfo.pair.velocity[1]) == 0 ){ 
+                //    //item.velocity[0] = forceInfo.pair.velocity[0];
+                //    //item.velocity[1] = forceInfo.pair.velocity[1];
+                //    //addForceX = fricFaceDirection[0] * itemForceFaceDir;
+                //    //addForceY = fricFaceDirection[1] * itemForceFaceDir;
+                //    //forceBuffer[item.id].force[0] += addForceX;
+                //    //forceBuffer[item.id].force[1] += addForceY;
+                //    //console.log(`[STATIC]  ${fricDirection}, ${itemForceFaceDir}, ${staticFrictionForce}`);
+                //}
+                //else{
 
-                    //動摩擦力を加える
-                    forceBuffer[item.id].force[0] += addForceX;
-                    forceBuffer[item.id].force[1] += addForceY;
+                  let dynamicFricEfficient = sharedResource.dynamicFrictionEfficient[`${item.materialName}-${forceInfo.pair.materialName}`] || this._default_dynamicFric;
+                  addForceX = fricFaceDirection[0] * normForceLength * dynamicFricEfficient;
+                  addForceY = fricFaceDirection[1] * normForceLength * dynamicFricEfficient;
 
-                    //加えた摩擦によって矛盾ある方向に進んでしまう場合は速度を０にするように力を修正する
-                    let itemVelocity = [ item.velocity[0] + forceBuffer[item.id].force[0] / item.mass * sharedResource.deltaTime, 
-                                         item.velocity[1] + forceBuffer[item.id].force[1] / item.mass * sharedResource.deltaTime ]; 
-                    if( itemVelocity[0] * fricFaceDirection[0] + itemVelocity[1] * fricFaceDirection[1] > 0 ){
-                        forceBuffer[item.id].force[0] = fricFaceDirection[0] * item.mass * (item.velocity[0] - forceInfo.pair.velocity[0]) / sharedResource.deltaTime;
-                        forceBuffer[item.id].force[1] = fricFaceDirection[1] * item.mass * (item.velocity[1] - forceInfo.pair.velocity[1]) / sharedResource.deltaTime;
-                    }
+                  //動摩擦力を加える
+                  forceBuffer[item.id].force[0] += addForceX;
+                  forceBuffer[item.id].force[1] += addForceY;
 
-                    //////反力を加える
-                    //  forceBuffer[forceInfo.pair.id].force[0] += -fricFaceDirection[0] * normForceLength * this._default_dynamicFric;
-                    //  forceBuffer[forceInfo.pair.id].force[1] += -fricFaceDirection[1] * normForceLength * this._default_dynamicFric;
-                }
+                  //加えた摩擦によって矛盾ある方向に進んでしまう場合は速度を０にするように力を修正する
+                  let itemVelocity = [ (item.velocity[0] - forceInfo.pair.velocity[0]) + (forceBuffer[item.id].force[0] + item.force[0]) / item.mass * sharedResource.deltaTime, 
+                                       (item.velocity[1] - forceInfo.pair.velocity[1]) + (forceBuffer[item.id].force[1] + item.force[1]) / item.mass * sharedResource.deltaTime ]; 
+                  if( itemVelocity[0] * fricFaceDirection[0] + itemVelocity[1] * fricFaceDirection[1] > 0 ){
+                      forceBuffer[item.id].force[0] = fricFaceDirection[0] * item.mass * Math.abs(item.velocity[0] - forceInfo.pair.velocity[0]) / sharedResource.deltaTime;
+                      forceBuffer[item.id].force[1] = fricFaceDirection[1] * item.mass * Math.abs(item.velocity[1] - forceInfo.pair.velocity[1]) / sharedResource.deltaTime;
+                  }
+
+                  //////反力を加える
+                  //  forceBuffer[forceInfo.pair.id].force[0] += -fricFaceDirection[0] * normForceLength * this._default_dynamicFric;
+                  //  forceBuffer[forceInfo.pair.id].force[1] += -fricFaceDirection[1] * normForceLength * this._default_dynamicFric;
+                //}
 
                 //console.log(`${item.id} ${forceInfo.pair.id} | ${addForceX} ${addForceY} | ${normForceLength} | ${forceInfo.vecFace[0]}, ${forceInfo.vecFace[1]}`);
             });
@@ -125,6 +127,19 @@ export default class colisionForceControl{
         });
     }
 
+    _reactionForce(items){
+        return;
+        items.forEach( item => {
+            item.colisionInfoList.forEach( colisionInfo => {
+                if( colisionInfo.distY ){
+                    let addForce = item.force[1];
+                    item.addForce([0, -addForce], colisionInfo.colisionFaceVec, colisionInfo.pair, {description: "reaction"});
+                    //colisionInfo.pair.addForce([0, addForce], [-colisionInfo.colisionFaceVec[0], -colisionInfo.colisionFaceVec[1]], item, {description: "reaction2"});
+                }
+            });
+        });
+    }
+
     //****************************************************
     //  めりこみ解決
     //****************************************************
@@ -141,9 +156,11 @@ export default class colisionForceControl{
                 }
                 else if( colisionInfo.distY ){
                     if (colisionInfo.distY > 0) {
+                        //矩形下部の判定時のめりこみ解消
                         item.addForce([0, -this._default_cy1 * item.velocity[1] - this._default_ky1 * colisionInfo.distY], colisionInfo.colisionFaceVec, colisionInfo.pair, {description: "modifySinking_Y1"});
                     }
                     else{
+                        //矩形上部の判定時のめり込み解消
                         item.addForce([0, -this._default_cy2 * item.velocity[1] - this._default_ky2 * colisionInfo.distY], colisionInfo.colisionFaceVec, colisionInfo.pair, {description: "modifySinking_Y2"});
                     }
                     //if( colisionInfo.pair.pin ){

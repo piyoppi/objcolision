@@ -28,13 +28,18 @@ export default class basicItem{
 
         //１ステップ前の速度
         this.beforeVelocity = [0, 0];
+
+        //重力関連
+        this._gravityForce = null;
     }
 
     addForce(vecForce, vecFace = null, pair = null, option = {}){
         if( !option.forceAdd && this.disableExternalForce ) return;
         this.force[0] += vecForce[0];
         this.force[1] += vecForce[1];
-        this.forceList.push( { addX: vecForce[0], addY: vecForce[1], vecFace: vecFace, pair: pair, description: option.description || ""} );
+        let forceInfo = { addX: vecForce[0], addY: vecForce[1], vecFace: vecFace, pair: pair, description: option.description || "", isGravity: option.isGravity || false};
+        this.forceList.push( forceInfo );
+        if( option.isGravity ) this._gravityForce = forceInfo;
     }
 
     setForce(vecForce, option={}){

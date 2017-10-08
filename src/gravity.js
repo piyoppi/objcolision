@@ -10,7 +10,7 @@ export default class gravity{
     static add(items){
         items.forEach( item => {
             if( !item.disableGravity && !item.pin ){
-                item.addForce([0, gravityAcceleration * item.mass], null);
+                item.addForce([0, gravityAcceleration * item.mass], null, null, {description: "gravity", isGravity: true});
             }
         });
     }

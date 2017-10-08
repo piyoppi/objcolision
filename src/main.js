@@ -60,7 +60,7 @@ let elements = [
         velocity: [0.0, 0.0],
         animate: null,
         color: 'orange',
-        pin: true,
+        pin: false,
         proc: [],
     }),
     new basicItem({
@@ -103,12 +103,13 @@ function render(){
     disp.renderElements(elements);
 }
 
+let cycle = 0;
 function calcVelocity(){
     let _FRIC_IGNORE_DIRECTION = 0.1;
-    console.log('-----');
+    //console.log('-----');
     elements.forEach( item => {
         //console.log(`${item.id}  | ${item.force[0]}, ${item.force[1]}`);
-        console.log( item.forceList );
+        //console.log( item.forceList );
         if( item.pin ){
             item.velocity[0] = 0;
             item.velocity[1] = 0;
@@ -156,12 +157,12 @@ function proc(){
 
 function freq(){
     proc();
+    gravity.add(elements); 
     colisionDetect.isColision(elements);
     colisionForce.changeForce(elements);
     calcVelocity();
     setPosition();
     render();
-    gravity.add(elements); 
     let frameRate = sharedResource.frameRateManager.completeFrame();
     //console.log(frameRate);
     //console.log(`pos: ${elements[0].position[0]}, ${elements[0].position[1]}   vel: ${elements[0].velocity[0]}, ${elements[0].velocity[1]}`);
