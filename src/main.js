@@ -60,7 +60,7 @@ let elements = [
         velocity: [0.0, 0.0],
         animate: null,
         color: 'orange',
-        pin: false,
+        pin: true,
         proc: [],
     }),
     new basicItem({
@@ -79,7 +79,7 @@ let elements = [
     new basicItem({
         id: 5,
         position: [700, 600],
-        width: 50,
+        width: 150,
         height: 50,
         force: [0.0, 0.0],
         mass: 1.0,
@@ -89,7 +89,7 @@ let elements = [
         pin: false,
         disableGravity: true,
         disableExternalForce: true,
-        //proc: [new circleMove({angularVelocity: 1})],
+        proc: [new circleMove({angularVelocity: 0.51})],
         materialName: "lift",
     }),
 ];
