@@ -11,7 +11,7 @@ import gravity from "./gravity.js"
 let elements = [
     new basicItem({
         id: 0,
-        position: [300, 200],
+        position: [300, 230],
         width: 150,
         height: 50,
         force: [0.0, 0.0],

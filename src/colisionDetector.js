@@ -47,15 +47,16 @@ export default class colisionDetector {
 
         //既にアイテムが登録されている場合はツリーから削除する
         if( registeredNode && item.id in registeredNode.items ){
+            console.log(`deleteitem id: ${item.id}   morton: ${item.regMortonTreeIdx}`);
             let regNodeItem = registeredNode.items[item.id];
-            if( !regNodeItem.next && !regNodeItem.prev ){
+            if( regNodeItem.next === null && regNodeItem.prev === null ){
                 registeredNode.headItemID = null;
             }
-            if( regNodeItem.prev && registeredNode.items[regNodeItem.prev] ){
+            if( regNodeItem.prev !== null && registeredNode.items[regNodeItem.prev] ){
                 registeredNode.items[regNodeItem.prev].next = regNodeItem.next;
                 if( regNodeItem.next === null ) registeredNode.headItemID = regNodeItem.prev;
             }
-            if( regNodeItem.next && registeredNode.items[regNodeItem.next] ){ registeredNode.items[regNodeItem.next].prev = regNodeItem.prev; }
+            if( regNodeItem.next !== null && registeredNode.items[regNodeItem.next] ){ registeredNode.items[regNodeItem.next].prev = regNodeItem.prev; }
             delete registeredNode.items[item.id];
         }
 
@@ -64,6 +65,7 @@ export default class colisionDetector {
             let setItem = {item: item, prev: null, next: null};
             node['items'] = {};
             node['items'][item.id] = setItem;
+            console.log("--*--");
         }
         else{
             node['items'][node.headItemID].next = item.id;
@@ -71,6 +73,8 @@ export default class colisionDetector {
         }
         item.regMortonTreeIdx = mortonTreeIdx;
         node['headItemID']  = item.id;
+
+        console.log(`id: ${item.id}   morton: ${mortonTreeIdx}  color: ${item.color}`);
     }
 
     //****************************************************
@@ -101,6 +105,8 @@ export default class colisionDetector {
     //  parentItems     ->  親アイテム
     //****************************************************
     mortonCheck(level, mortonNum, parentItems = []){
+        //console.log(`lv: ${level}  num: ${mortonNum}`);
+
         let idxQuaternaryTree = ((Math.pow(4, level)-1.0 ) / 3.0) + mortonNum;
         let procMortonNode = this._linearQuaternaryTree[idxQuaternaryTree];
         let beforeParentCount = parentItems.length;
