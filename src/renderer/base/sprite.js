@@ -14,4 +14,12 @@ export default class sprite {
             timeCount: 0,
         }
     }
+
+    getFrame() {
+        return this.playingAnimation.frame[this.state.frame];
+    }
+
+    setAnimation(animation){
+        this.playingAnimation = animation;
+    }
 }

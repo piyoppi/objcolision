@@ -5,6 +5,7 @@
 //      •`‰æˆ—‚ð’è‹`‚µ‚Ü‚·
 //
 import rendererBase from '../base/renderer_base.js'
+import sprite from './sprite.js'
 import * as pixi from 'pixi.js';
 
 export default class renderer extends rendererBase {
@@ -19,10 +20,21 @@ export default class renderer extends rendererBase {
     }
 
     render(items) {
-        
+        items.forEach( item => {
+            this.sprites[item.id].state.texture.frame = this.sprites[item.id].getFrame();
+        });
     }
 
-    remove(item) {
+    setAnimation(item, animation) {
+        this.sprites[item.id].setAnimation(animation);
+    }
+
+    addItem(item) {
+        super.addItem(item);
+        this.sprites[item.id].item = new pixi.Sprite();
+    }
+
+    removeItem(item) {
         super.remove(item);
     }
 }
