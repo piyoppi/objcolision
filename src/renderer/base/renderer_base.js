@@ -7,15 +7,21 @@
 
 
 export default class rendererBase {
-    constructor(){
-        this.sprites  = {};                     //スプライトたちを格納する
+    constructor(element){
+        this.sprites = {};                     //スプライトたちを格納する
+        this.size = {x: element.clientWidth, y: element.clientHeight};
+        this.element = element;
     }
 
     initialize() {
 
     }
 
-    render() {
+    render(items) {
 
+    }
+
+    remove(item){
+        delete this.sprites[item.id];
     }
 }
