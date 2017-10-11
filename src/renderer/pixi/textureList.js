@@ -15,8 +15,8 @@ export default class textureList extends textureListBase {
 
     //********************************
     //  テクスチャの読み込み
-    //  [image] -> 読み込む画像
-    //  ret     -> (bool)成功の可否
+    //  [textureInformations] -> ロード情報 {name, url}
+    //  ret                   -> (obj)成功の可否
     //********************************
     loadTextureFromImages(textureInformations, callback) {
         super(textureInformations, callback);
@@ -25,8 +25,8 @@ export default class textureList extends textureListBase {
 
     //********************************
     //  テクスチャの読み込み
-    //  [url] -> URL
-    //  ret   -> (bool)成功の可否
+    //  [textureInformations] -> ロード情報 {name, url}
+    //  ret                   -> (obj)成功の可否
     //********************************
     loadTextureFromURLs(textureInformations, callback) {
         super.loadTextureFromURLs(textureInformations, null);

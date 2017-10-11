@@ -13,8 +13,8 @@ export default class textureListBase {
 
     //********************************
     //  テクスチャの読み込み
-    //  [image] -> 読み込む画像
-    //  ret     -> (bool)成功の可否
+    //  [textureInformations] -> ロード情報 {name, url}
+    //  ret                   -> (obj)成功の可否
     //********************************
     loadTextureFromImage(image, callback) {
         callback({result: false});
@@ -22,8 +22,8 @@ export default class textureListBase {
 
     //********************************
     //  テクスチャの読み込み
-    //  [url] -> URL
-    //  ret   -> (bool)成功の可否
+    //  [textureInformations] -> ロード情報 {name, url}
+    //  ret                   -> (obj)成功の可否
     //********************************
     loadTextureFromURLs(info, callback) {
         textureInformations.forEach( info => {
