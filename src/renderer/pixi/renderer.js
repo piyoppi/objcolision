@@ -23,7 +23,6 @@ export default class renderer extends rendererBase {
         items.forEach( item => {
             let sprite = this.sprites[item.id];
             sprite.state.texture.frame = this.sprites[item.id].getFrame();
-
             sprite.item.position.set(this.camera.position[0], this.camera.position[1]);
         });
 

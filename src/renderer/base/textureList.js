@@ -8,25 +8,27 @@
 
 export default class textureListBase {
     constructor() {
-        this.textures = [];
+        this.textures = {};
     }
 
     //********************************
     //  テクスチャの読み込み
-    //  image -> 読み込む画像
+    //  [image] -> 読み込む画像
+    //  ret     -> (bool)成功の可否
+    //********************************
+    loadTextureFromImage(image, callback) {
+        callback({result: false});
+    }
+
+    //********************************
+    //  テクスチャの読み込み
+    //  [url] -> URL
     //  ret   -> (bool)成功の可否
     //********************************
-    loadTextureFromImage(image) {
-        return false;
-    }
-
-
-    //********************************
-    //  テクスチャの読み込み
-    //  url -> URL
-    //  ret -> (bool)成功の可否
-    //********************************
-    loadTextureFromURL(url) {
-        return false;
+    loadTextureFromURLs(info, callback) {
+        textureInformations.forEach( info => {
+            this.textures[info.name] = {name: info.name, item: null};
+        }
+        if(callback !== null) callback({result: false});
     }
 }
