@@ -5,6 +5,8 @@
 //      スプライトを定義します
 //
 
+import animation from './animation.js'
+
 export default class sprite {
     constructor(){
         this.item = null;

@@ -21,17 +21,24 @@ export default class renderer extends rendererBase {
 
     render(items) {
         items.forEach( item => {
-            this.sprites[item.id].state.texture.frame = this.sprites[item.id].getFrame();
+            let sprite = this.sprites[item.id];
+            sprite.state.texture.frame = this.sprites[item.id].getFrame();
+
+            sprite.item.position.set(this.camera.position[0], this.camera.position[1]);
         });
+
+        renderer.render(this.stage);
     }
 
     setAnimation(item, animation) {
         this.sprites[item.id].setAnimation(animation);
     }
 
-    addItem(item) {
+    addItem(item, option = null) {
         super.addItem(item);
-        this.sprites[item.id].item = new pixi.Sprite();
+        let setSprite = new pixi.Sprite();
+        this.sprites[item.id].item = setSprite;
+        this.stage.addChild(setSprite);
     }
 
     removeItem(item) {

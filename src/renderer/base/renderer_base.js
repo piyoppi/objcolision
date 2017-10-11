@@ -4,6 +4,7 @@
 //
 //      描画処理を定義します
 //
+import camera from './camera.js'
 import sprite from '../base/sprite.js'
 
 export default class rendererBase {
@@ -11,6 +12,7 @@ export default class rendererBase {
         this.sprites = {};                     //スプライトたちを格納する
         this.size = {x: element.clientWidth, y: element.clientHeight};
         this.element = element;
+        this.camera = new camera();
     }
 
     getSprite( item ) {
@@ -25,7 +27,7 @@ export default class rendererBase {
 
     }
 
-    addItem(item) {
+    addItem(item, option = null) {
         this.sprites[item.id] = [new sprite()];
     }
 
