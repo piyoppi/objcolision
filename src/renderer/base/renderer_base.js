@@ -34,4 +34,12 @@ export default class rendererBase {
     removeItem(item){
         delete this.sprites[item.id];
     }
+
+    toJSON() {
+        return JSON.stringify(this.sprites);
+    }
+
+    fromJSON(str) {
+
+    }
 }

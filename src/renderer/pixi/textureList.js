@@ -1,9 +1,8 @@
 //
-//      ƒeƒNƒXƒ`ƒƒƒŠƒXƒgƒNƒ‰ƒX
+//      ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒªã‚¹ãƒˆã‚¯ãƒ©ã‚¹_PixiJS
 //      --------------
 //
-//      ƒeƒNƒXƒ`ƒƒ‚ğŠÇ—‚µ‚Ü‚·
-//      iÀ‘•‚ÍŠe•`‰æƒGƒ“ƒWƒ“‚²‚Æ‚És‚¤j
+//      ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ç®¡ç†ã—ã¾ã™
 //
 import textureListBase from '../base/textureList.js'
 import * as pixi from 'pixi.js';
@@ -14,19 +13,19 @@ export default class textureList extends textureListBase {
     }
 
     //********************************
-    //  ƒeƒNƒXƒ`ƒƒ‚Ì“Ç‚İ‚İ
-    //  [textureInformations] -> ƒ[ƒhî•ñ {name, url}
-    //  ret                   -> (obj)¬Œ÷‚Ì‰Â”Û
+    //  ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®èª­ã¿è¾¼ã¿
+    //  [textureInformations] -> ãƒ­ãƒ¼ãƒ‰æƒ…å ± {name, url}
+    //  ret                   -> (obj)æˆåŠŸã®å¯å¦
     //********************************
     loadTextureFromImages(textureInformations, callback) {
-        super(textureInformations, callback);
+        super.loadTextureFromImages(textureInformations, callback);
     }
 
 
     //********************************
-    //  ƒeƒNƒXƒ`ƒƒ‚Ì“Ç‚İ‚İ
-    //  [textureInformations] -> ƒ[ƒhî•ñ {name, url}
-    //  ret                   -> (obj)¬Œ÷‚Ì‰Â”Û
+    //  ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®èª­ã¿è¾¼ã¿
+    //  [textureInformations] -> ãƒ­ãƒ¼ãƒ‰æƒ…å ± {name, url}
+    //  ret                   -> (obj)æˆåŠŸã®å¯å¦
     //********************************
     loadTextureFromURLs(textureInformations, callback) {
         super.loadTextureFromURLs(textureInformations, null);

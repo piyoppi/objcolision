@@ -1,8 +1,8 @@
 //
-//      ƒXƒvƒ‰ƒCƒgƒNƒ‰ƒX
+//      ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã‚¯ãƒ©ã‚¹
 //      --------------
 //
-//      ƒXƒvƒ‰ƒCƒg‚ð’è‹`‚µ‚Ü‚·
+//      ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã‚’å®šç¾©ã—ã¾ã™
 //
 
 import * as pixi from 'pixi.js';

@@ -28,7 +28,11 @@ export default class textureListBase {
     loadTextureFromURLs(info, callback) {
         textureInformations.forEach( info => {
             this.textures[info.name] = {name: info.name, item: null};
-        }
+        });
         if(callback !== null) callback({result: false});
+    }
+
+    toJSON(){
+        return JSON.stringify(this.textures);
     }
 }

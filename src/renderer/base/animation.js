@@ -1,8 +1,8 @@
 //
-//      ƒAƒjƒ[ƒVƒ‡ƒ“ƒNƒ‰ƒX
+//      ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚¯ãƒ©ã‚¹
 //      --------------
 //
-//      ƒAƒjƒ[ƒVƒ‡ƒ“‚ð’è‹`‚µ‚Ü‚·
+//      ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å®šç¾©ã—ã¾ã™
 //
 
 import texture from './texture.js'

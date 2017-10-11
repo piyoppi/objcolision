@@ -1,8 +1,8 @@
 //
-//      •`‰æƒNƒ‰ƒX(PIXIJS)
+//      æç”»ã‚¯ãƒ©ã‚¹(PIXIJS)
 //      --------------
 //
-//      •`‰æˆ—‚ğ’è‹`‚µ‚Ü‚·
+//      æç”»å‡¦ç†ã‚’å®šç¾©ã—ã¾ã™
 //
 import rendererBase from '../base/renderer_base.js'
 import sprite from './sprite.js'
