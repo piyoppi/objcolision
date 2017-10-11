@@ -34,9 +34,15 @@ export default class renderer extends rendererBase {
         this.sprites[item.id].setAnimation(animation);
     }
 
-    addItem(item, option = null) {
+    addItem(item, animation = null) {
         super.addItem(item);
-        let setSprite = new pixi.Sprite();
+        let setSprite;
+        if( animation && animation.renderOption.tiling ){
+            setSprite = new PIXI.extras.TilingSprite();
+        } else {
+            setSprite = new pixi.Sprite();
+        }
+        
         this.sprites[item.id].item = setSprite;
         this.stage.addChild(setSprite);
     }

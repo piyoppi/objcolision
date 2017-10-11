@@ -12,5 +12,9 @@ export default class animation {
         this.texture = null;
         this.frame = [];
         this.initialFrameIndex = 0;
+
+        this.renderOption = {
+            tiling: false,
+        }
     }
 }

@@ -27,7 +27,7 @@ export default class rendererBase {
 
     }
 
-    addItem(item, option = null) {
+    addItem(item, animation = null) {
         this.sprites[item.id] = [new sprite()];
     }
 
