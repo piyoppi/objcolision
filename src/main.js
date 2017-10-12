@@ -10,7 +10,7 @@ import objectManager from "./objectManager.js"
 
 //renderer
 import display from "./display.js"
-import renderer from "./renderer/pixi/renderer.js"
+import rendererPixi from "./renderer/pixi/renderer.js"
 
 let elements = [
     new basicItem({
@@ -79,7 +79,6 @@ let elements = [
         width: 150,
         height: 50,
         mass: 1.0,
-        animate: null,
         color: 'black',
         pin: false,
         disableGravity: true,
@@ -90,21 +89,17 @@ let elements = [
 ];
 
 let dispElem = document.getElementById('display');
-let disp = new display(dispElem);
 let colisionDetect = new colisionDetector(1500, 1500, 2, elements);
 let colisionForce = new colisionForceController(); 
 
-function render(){
-    disp.renderElements(elements);
-}
+let renderer = new rendererPixi(dispElem);
 
-function proc(){
-    elements.forEach( item => {
-        item.proc.forEach( proc => {
-            proc.execute(item);
-        });
-    });
+//----------------
+//let disp = new display(dispElem);
+function render(){
+    //disp.renderElements(elements);
 }
+//----------------
 
 function freq(){
     proc();
@@ -124,3 +119,12 @@ function freq(){
     setTimeout( freq, 16 );
 }
 freq();
+
+
+function proc(){
+    elements.forEach( item => {
+        item.proc.forEach( proc => {
+            proc.execute(item);
+        });
+    });
+}

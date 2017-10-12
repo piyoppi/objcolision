@@ -11,7 +11,8 @@ import * as pixi from 'pixi.js';
 export default class renderer extends rendererBase {
     constructor(element){
         super(element);
-        this.pixijs = pixi.autoDetectRenderer(this.size.x, this.size.y, {antialias: false, transparent: false, resolution: 1});
+        this.renderer = pixi.autoDetectRenderer(this.size.x, this.size.y, {antialias: false, transparent: false, resolution: 1});
+        element.appendChild(this.renderer.view);
         this.stage = new pixi.Container();
     }
 
@@ -26,7 +27,7 @@ export default class renderer extends rendererBase {
             sprite.item.position.set(this.camera.position[0], this.camera.position[1]);
         });
 
-        renderer.render(this.stage);
+        this.renderer.render(this.stage);
     }
 
     setAnimation(item, animation) {
