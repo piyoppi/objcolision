@@ -1,4 +1,3 @@
-import display from "./display.js"
 import colisionDetector from "./colisionDetector.js"
 import colisionForceController from "./colisionForceControl.js"
 import sharedResource from "./sharedResource.js"
@@ -8,6 +7,10 @@ import linearMove from "./move_controller/linear_move.js"
 import circleMove from "./move_controller/circle_move.js"
 import gravity from "./gravity.js"
 import objectManager from "./objectManager.js"
+
+//renderer
+import display from "./display.js"
+import renderer from "./renderer/pixi/renderer.js"
 
 let elements = [
     new basicItem({
@@ -120,5 +123,4 @@ function freq(){
     //window.requestAnimationFrame(freq);
     setTimeout( freq, 16 );
 }
-//elements[1].force=[10000, 0];
 freq();

@@ -8,7 +8,7 @@
 import * as pixi from 'pixi.js';
 import rendererBase from '../base/sprite.js'
 
-export default class spritePixi {
+export default class spritePixi extends rendererBase {
     constructor(){
         super();
     }
