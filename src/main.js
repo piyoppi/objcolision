@@ -15,9 +15,7 @@ let elements = [
         position: [300, 230],
         width: 150,
         height: 50,
-        force: [0.0, 0.0],
         mass: 1.0,
-        velocity: [0.0, 0.0],
         animate: null,
         color: 'black',
         pin: true,
@@ -31,9 +29,7 @@ let elements = [
         position: [190, 250],
         width: 50,
         height: 50,
-        force: [0.0, 0.0],
         mass: 1.0,
-        velocity: [0.0, 0.0],
         animate: null,
         color: 'red',
         pin: false,
@@ -69,10 +65,7 @@ let elements = [
         position: [194, 10] ,
         width: 50,
         height: 50,
-        force: [0.0, 0.0],
         mass: 1.0,
-        velocity: [0.0, 0.0],
-        animate: null,
         color: 'blue',
         pin: true,
         proc: [],
@@ -82,9 +75,7 @@ let elements = [
         position: [700, 600],
         width: 150,
         height: 50,
-        force: [0.0, 0.0],
         mass: 1.0,
-        velocity: [0.0, 0.0],
         animate: null,
         color: 'black',
         pin: false,
@@ -117,8 +108,6 @@ function freq(){
     gravity.add(elements); 
     colisionDetect.isColision(elements);
     colisionForce.changeForce(elements);
-    //calcVelocity();
-    ///objectManager.setPosition(elements);
     objectManager.updateObjectState(elements);
 
     elements.forEach( item => {
