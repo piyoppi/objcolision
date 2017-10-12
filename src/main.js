@@ -7,6 +7,7 @@ import basicItem from "./basicItem.js"
 import linearMove from "./move_controller/linear_move.js"
 import circleMove from "./move_controller/circle_move.js"
 import gravity from "./gravity.js"
+import objectManager from "./objectManager.js"
 
 let elements = [
     new basicItem({
@@ -103,50 +104,6 @@ function render(){
     disp.renderElements(elements);
 }
 
-let cycle = 0;
-function calcVelocity(){
-    let _FRIC_IGNORE_DIRECTION = 0.1;
-    //console.log('-----');
-    elements.forEach( item => {
-        //console.log(`${item.id}  | ${item.force[0]}, ${item.force[1]}`);
-        //console.log( item.forceList );
-        if( item.pin ){
-            item.velocity[0] = 0;
-            item.velocity[1] = 0;
-            item.absVelocity = 0;
-        }
-        else{
-            item.velocity[0] += item.force[0] * sharedResource.deltaTime / item.mass;
-            item.velocity[1] += item.force[1] * sharedResource.deltaTime / item.mass;
-            item.absVelocity = Math.sqrt(item.velocity[0] * item.velocity[0] + item.velocity[1] * item.velocity[1]);
-            //[TODO]摩擦がかかっている状態で静止状態が続いているとみなせる場合は速度を０にする処理を追加してみる
-            if( ((item.velocity[0] * item.velocity[0] + item.velocity[1] * item.velocity[1]) < _FRIC_IGNORE_DIRECTION) && item.isEfficientFriction ){
-                if( item.cntRestingStateCausedFriction > 5 ){
-                    item.velocity[0] = 0;
-                    item.velocity[1] = 0;
-                    item.cntRestingStateCausedFriction = 0;
-                }
-                else{
-                    item.cntRestingStateCausedFriction++;
-                }
-            }
-        }
-        item.force[0] = 0;
-        item.force[1] = 0;
-        item.forceList = [];
-    });
-}
-
-function setPosition(){
-    elements.forEach( item => {
-        item.position[0] += 0.5 * (item.velocity[0] + item.beforeVelocity[0]) * sharedResource.deltaTime;
-        item.position[1] += 0.5 * (item.velocity[1] + item.beforeVelocity[1]) * sharedResource.deltaTime;
-        if( (item.velocity[0] != 0) || (item.velocity[1] != 0 ) ) colisionDetect.updateMortonTree(item);
-        item.beforeVelocity[0] = item.velocity[0];
-        item.beforeVelocity[1] = item.velocity[1];
-    });
-}
-
 function proc(){
     elements.forEach( item => {
         item.proc.forEach( proc => {
@@ -160,8 +117,13 @@ function freq(){
     gravity.add(elements); 
     colisionDetect.isColision(elements);
     colisionForce.changeForce(elements);
-    calcVelocity();
-    setPosition();
+    //calcVelocity();
+    ///objectManager.setPosition(elements);
+    objectManager.updateObjectState(elements);
+
+    elements.forEach( item => {
+        if( (item.velocity[0] != 0) || (item.velocity[1] != 0 ) ) colisionDetect.updateMortonTree(item);
+    })
     render();
     let frameRate = sharedResource.frameRateManager.completeFrame();
     //console.log(frameRate);

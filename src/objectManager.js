@@ -1,13 +1,11 @@
+import sharedResource from "./sharedResource.js"
 
 export default class objectManager {
-    constructor(){
-        this.objects = [];
-    }
 
-    _calcVelocity(){
+    static _calcVelocity(items){
         let _FRIC_IGNORE_DIRECTION = 0.1;
         //console.log('-----');
-        this.objects.forEach( item => {
+        items.forEach( item => {
             //console.log(`${item.id}  | ${item.force[0]}, ${item.force[1]}`);
             //console.log( item.forceList );
             if( item.pin ){
@@ -37,23 +35,18 @@ export default class objectManager {
         });
     }
 
-    _setPosition(){
-        this.objects.forEach( item => {
+    static _setPosition(items){
+        items.forEach( item => {
             item.position[0] += 0.5 * (item.velocity[0] + item.beforeVelocity[0]) * sharedResource.deltaTime;
             item.position[1] += 0.5 * (item.velocity[1] + item.beforeVelocity[1]) * sharedResource.deltaTime;
-            if( (item.velocity[0] != 0) || (item.velocity[1] != 0 ) ) colisionDetect.updateMortonTree(item);
             item.beforeVelocity[0] = item.velocity[0];
             item.beforeVelocity[1] = item.velocity[1];
         });
     }
 
-    addObjects(items){
-        this.objects.push(...items);
-    }
-
-    updateObjectState(){
-        this._calcVelocity();
-        this._setPosition();
+    static updateObjectState(items){
+        this._calcVelocity(items);
+        this._setPosition(items);
     }
 
 }
