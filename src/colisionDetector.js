@@ -47,7 +47,7 @@ export default class colisionDetector {
 
         //既にアイテムが登録されている場合はツリーから削除する
         if( registeredNode && item.id in registeredNode.items ){
-            console.log(`deleteitem id: ${item.id}   morton: ${item.regMortonTreeIdx}`);
+            //console.log(`deleteitem id: ${item.id}   morton: ${item.regMortonTreeIdx}`);
             let regNodeItem = registeredNode.items[item.id];
             if( regNodeItem.next === null && regNodeItem.prev === null ){
                 registeredNode.headItemID = null;
@@ -65,7 +65,7 @@ export default class colisionDetector {
             let setItem = {item: item, prev: null, next: null};
             node['items'] = {};
             node['items'][item.id] = setItem;
-            console.log("--*--");
+            //console.log("--*--");
         }
         else{
             node['items'][node.headItemID].next = item.id;
@@ -74,7 +74,7 @@ export default class colisionDetector {
         item.regMortonTreeIdx = mortonTreeIdx;
         node['headItemID']  = item.id;
 
-        console.log(`id: ${item.id}   morton: ${mortonTreeIdx}  color: ${item.color}`);
+        //console.log(`id: ${item.id}   morton: ${mortonTreeIdx}  color: ${item.color}`);
     }
 
     //****************************************************

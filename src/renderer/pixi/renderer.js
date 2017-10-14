@@ -30,6 +30,7 @@ export default class renderer extends rendererBase {
                 spriteObj.item.height = item.height;
                 spriteObj.item.position.set(item.position[0] - this.camera.position[0], item.position[1] - this.camera.position[1]);
             });
+            sprite.nextAnimation();
         });
 
         this.renderer.render(this.stage);
