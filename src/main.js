@@ -100,7 +100,7 @@ textureList.loadTextureFromURLs( [
         {name: "chip", url: 'img/chip.bmp'},
         {name: "chara", url: 'img/chara.png'}
 ], ()=>{
-    renderer.addItem(elements[0], new animationPixi({texture: textureList.textures["chip"], frame: [{x: 0, y: 0, width: 64, height: 64}]}) );
+    renderer.addItem(elements[0], new animationPixi({texture: textureList.textures["chip"], frame: [{nextStep: 10, rect: {x: 0, y: 0, width: 64, height: 64} }]}) );
 });
 
 //----------------
