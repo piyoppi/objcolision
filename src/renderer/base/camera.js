@@ -8,7 +8,7 @@
 
 export default class camera {
     constructor(element){
-        this.position = [];
+        this.position = [0, 0];
     }
 
     initialize() {
