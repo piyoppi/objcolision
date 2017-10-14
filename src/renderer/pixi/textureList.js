@@ -38,7 +38,6 @@ export default class textureList extends textureListBase {
                 this.textures[info.name] = new texture({item: pixi.loader.resources[info.name].texture});
             });
             console.log("[Textures Loading...] Completed!");
-            console.log(this.textures);
             if( callback !== null ) callback({result: true})
         });
     }

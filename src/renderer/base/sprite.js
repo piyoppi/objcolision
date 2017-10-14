@@ -1,15 +1,15 @@
 //
-//      ƒXƒvƒ‰ƒCƒgƒNƒ‰ƒX
+//      ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã‚¯ãƒ©ã‚¹
 //      --------------
 //
-//      ƒXƒvƒ‰ƒCƒg‚ğ’è‹`‚µ‚Ü‚·
+//      ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã‚’å®šç¾©ã—ã¾ã™
 //
 
 import animation from './animation.js'
 
 export default class sprite {
     constructor(){
-        this.item = null;
+        this.items = null;
         this.playingAnimation = null;
         this.state = {
             frame: 0,
