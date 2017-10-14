@@ -101,6 +101,11 @@ textureList.loadTextureFromURLs( [
         {name: "chara", url: 'img/chara.png'}
 ], ()=>{
     renderer.addItem(elements[0], new animationPixi({texture: textureList.textures["chip"], frame: [{nextStep: 10, rect: {x: 0, y: 0, width: 64, height: 64} }]}) );
+    renderer.addItem(elements[1], new animationPixi({texture: textureList.textures["chip"], frame: [{nextStep: 10, rect: {x: 0, y: 0, width: 64, height: 64} }]}) );
+    renderer.addItem(elements[2], new animationPixi({texture: textureList.textures["chip"], frame: [{nextStep: 10, rect: {x: 32, y: 0, width: 32, height: 32} }], option: {tiling: true}}) );
+    renderer.addItem(elements[3], new animationPixi({texture: textureList.textures["chip"], frame: [{nextStep: 10, rect: {x: 0, y: 0, width: 64, height: 64} }]}) );
+    renderer.addItem(elements[4], new animationPixi({texture: textureList.textures["chip"], frame: [{nextStep: 10, rect: {x: 0, y: 0, width: 64, height: 64} }]}) );
+    renderer.addItem(elements[5], new animationPixi({texture: textureList.textures["chip"], frame: [{nextStep: 10, rect: {x: 0, y: 0, width: 64, height: 64} }]}) );
 });
 
 //----------------

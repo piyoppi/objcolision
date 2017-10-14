@@ -13,8 +13,10 @@ export default class animation {
         this.frame = param.frame || [];
         this.initialFrameIndex = 0;
 
+        let paramOption = param.option || {};
         this.renderOption = {
-            tiling: false,
+            tiling: paramOption.tiling || false,
         }
+
     }
 }

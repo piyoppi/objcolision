@@ -43,7 +43,7 @@ export default class renderer extends rendererBase {
         super.addItem(item);
         let setSprite;
         if( animation && animation.renderOption.tiling ){
-            setSprite = new PIXI.extras.TilingSprite();
+            setSprite = new PIXI.extras.TilingSprite(animation.texture.item, item.width, item.height);
         } else {
             setSprite = new pixi.Sprite();
         }
