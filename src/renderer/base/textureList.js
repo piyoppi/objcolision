@@ -16,7 +16,7 @@ export default class textureListBase {
     //  [textureInformations] -> ロード情報 {name, url}
     //  ret                   -> (obj)成功の可否
     //********************************
-    loadTextureFromImage(image, callback) {
+    loadTextureFromImage(textureInformations, callback) {
         callback({result: false});
     }
 
@@ -25,7 +25,7 @@ export default class textureListBase {
     //  [textureInformations] -> ロード情報 {name, url}
     //  ret                   -> (obj)成功の可否
     //********************************
-    loadTextureFromURLs(info, callback) {
+    loadTextureFromURLs(textureInformations, callback) {
         textureInformations.forEach( info => {
             this.textures[info.name] = {name: info.name, item: null};
         });

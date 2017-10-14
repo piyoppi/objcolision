@@ -23,6 +23,7 @@ export default class renderer extends rendererBase {
     render(items) {
         items.forEach( item => {
             let sprite = this.sprites[item.id];
+            if( !sprite ) return;
             sprite.state.texture.frame = this.sprites[item.id].getFrame();
             sprite.item.position.set(this.camera.position[0], this.camera.position[1]);
         });
@@ -42,8 +43,9 @@ export default class renderer extends rendererBase {
         } else {
             setSprite = new pixi.Sprite();
         }
-        
+        this.sprites[item.id] = new sprite();
         this.sprites[item.id].item = setSprite;
+        if( animation ) this.setAnimation(item, animation);
         this.stage.addChild(setSprite);
     }
 

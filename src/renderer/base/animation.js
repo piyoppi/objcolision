@@ -8,9 +8,9 @@
 import texture from './texture.js'
 
 export default class animation {
-    constructor(){
-        this.texture = null;
-        this.frame = [];
+    constructor(param){
+        this.texture = param.texture || null;
+        this.frame = param.frame || [];
         this.initialFrameIndex = 0;
 
         this.renderOption = {

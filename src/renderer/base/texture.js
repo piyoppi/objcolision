@@ -6,7 +6,7 @@
 //
 
 export default class texture {
-    constructor(){
-        this.item = null;
+    constructor(param = {}){
+        this.item = param.item || null;
     }
 }

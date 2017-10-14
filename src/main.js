@@ -11,6 +11,8 @@ import objectManager from "./objectManager.js"
 //renderer
 import display from "./display.js"
 import rendererPixi from "./renderer/pixi/renderer.js"
+import textureListPixi from "./renderer/pixi/textureList.js"
+import animationPixi from "./renderer/pixi/animation.js"
 
 let elements = [
     new basicItem({
@@ -93,10 +95,18 @@ let colisionDetect = new colisionDetector(1500, 1500, 2, elements);
 let colisionForce = new colisionForceController(); 
 
 let renderer = new rendererPixi(dispElem);
+let textureList = new textureListPixi();
+textureList.loadTextureFromURLs( [
+        {name: "chip", url: 'img/chip.bmp'},
+        {name: "chara", url: 'img/chara.png'}
+], ()=>{
+    renderer.addItem(elements[0], new animationPixi({texture: textureList.textures["chip"], frame: [{x: 0, y: 0, width: 64, height: 64}]}) );
+});
 
 //----------------
 //let disp = new display(dispElem);
 function render(){
+    renderer.render(elements);
     //disp.renderElements(elements);
 }
 //----------------
