@@ -26,9 +26,9 @@ export default class renderer extends rendererBase {
             if( !sprite ) return;
             sprite.state.texture.frame = this.sprites[item.id].getFrame().rect;
             sprite.items.forEach( spriteObj => {
-                spriteObj.width = item.width;
-                spriteObj.height = item.height;
-                spriteObj.position.set(item.position[0] - this.camera.position[0], item.position[1] - this.camera.position[1]);
+                spriteObj.item.width = item.width;
+                spriteObj.item.height = item.height;
+                spriteObj.item.position.set(item.position[0] - this.camera.position[0], item.position[1] - this.camera.position[1]);
             });
         });
 
@@ -42,13 +42,14 @@ export default class renderer extends rendererBase {
     addItem(item, animation = null) {
         super.addItem(item);
         let setSprite;
+        this.sprites[item.id] = new sprite();
         if( animation && animation.renderOption.tiling ){
             setSprite = new PIXI.extras.TilingSprite(animation.texture.item, item.width, item.height);
+            this.sprites[item.id].items = [{type: "tiling", item: setSprite}];
         } else {
             setSprite = new pixi.Sprite();
+            this.sprites[item.id].items = [{type: "sprite", item: setSprite}];
         }
-        this.sprites[item.id] = new sprite();
-        this.sprites[item.id].items = [setSprite];
         if( animation ) this.setAnimation(item, animation);
         this.stage.addChild(setSprite);
     }

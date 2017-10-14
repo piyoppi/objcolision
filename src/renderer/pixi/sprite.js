@@ -18,7 +18,7 @@ export default class spritePixi extends spriteBase {
         super.setAnimation(animation);
         this.state.texture = this.playingAnimation.texture.item.clone();
         this.items.forEach( item => {
-            item.texture = this.state.texture;
+            item.item.texture = this.state.texture;
         });
     }
 }
