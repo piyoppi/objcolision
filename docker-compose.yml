@@ -6,10 +6,16 @@ services:
     privileged: true
     hostname: app.local
     container_name: app
+    ports:
+      - '3030:3000'
     volumes:
       - ./:/var/www/
 
+    #command: bash -c "cd /var/www && bundle install --path vendor/bundle && rails s"
+        #command: /sbin/init
+
   db:
     image: mysql/mysql-server:5.7
+    container_name: db
     environment:
       - MYSQL_ROOT_PASSWORD="hoge"
