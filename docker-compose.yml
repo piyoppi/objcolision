@@ -7,11 +7,11 @@ services:
     hostname: app.local
     container_name: app
     ports:
-      - '3030:3000'
+      - '3000:3030'
     volumes:
       - ./:/var/www/
 
-    #command: bash -c "cd /var/www && bundle install --path vendor/bundle && rails s"
+    #command: bash -c "cd /var/www && bundle exec rails s"
         #command: /sbin/init
 
   db:

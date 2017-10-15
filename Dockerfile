@@ -1,5 +1,6 @@
 FROM ubuntu:16.04
 
+ADD Gemfile /var/www/Gemfile
 
 ENV PATH /root/.rbenv/plugins/ruby-build/bin:$PATH
 ENV PATH /root/.rbenv/bin:$PATH
@@ -7,7 +8,7 @@ ENV PATH /root/.rbenv/shims:$PATH
 
 RUN apt-get update
 
-RUN apt-get install -y git curl bzip2 build-essential libssl-dev libreadline-dev zlib1g-dev
+RUN apt-get install -y git curl bzip2 build-essential libssl-dev libreadline-dev zlib1g-dev nodejs
 
 WORKDIR /root/
 RUN git clone https://github.com/rbenv/rbenv.git /root/.rbenv && \
@@ -18,8 +19,7 @@ RUN rbenv install 2.4.0
 RUN apt-get install -y libmysqlclient-dev
 
 WORKDIR /var/www/
-RUN rbenv local 2.4.0
+RUN rbenv global 2.4.0
 RUN gem install bundler
-ADD Gemfile /var/www
 RUN bundle install --path /usr/local/src/bundles/objcolision
 
