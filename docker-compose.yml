@@ -2,12 +2,12 @@ version: '3'
 services:
   gameapp:
     build: .
-    command: /sbin/init
+    command: bash -c "cd /var/www && bundle install && bundle exec rails s"
     privileged: true
     hostname: app.local
     container_name: gameapp
     ports:
-      - '3000:3030'
+      - '3000:3000'
     volumes:
       - ./:/var/www/
 
