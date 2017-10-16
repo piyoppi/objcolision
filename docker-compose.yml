@@ -4,18 +4,24 @@ services:
     build: .
     command: bash -c "cd /var/www && bundle install && bundle exec rails s"
     privileged: true
-    hostname: app.local
+    hostname: gameapp.local
     container_name: gameapp
     ports:
       - '3000:3000'
     volumes:
       - ./:/var/www/
-
-    #command: bash -c "cd /var/www && bundle exec rails s"
-        #command: /sbin/init
+    links:
+      - gamedb
 
   gamedb:
     image: mysql/mysql-server:5.7
     container_name: gamedb
+    ports:
+      - "3306:3306"
     environment:
-      - MYSQL_ROOT_PASSWORD="hoge"
+      - MYSQL_ROOT_PASSWORD=hoge
+      - MYSQL_USER=devuser
+      - MYSQL_PASSWORD=hoge
+    volumes:
+        - ./mysql/:/etc/mysql/conf.d/ 
+        - ./mysql/:/docker-entrypoint-initdb.d/

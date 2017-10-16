@@ -16,7 +16,7 @@ RUN git clone https://github.com/rbenv/rbenv.git /root/.rbenv && \
 RUN rbenv install 2.4.0
 
 #mysql-client
-RUN apt-get install -y libmysqlclient-dev
+RUN apt-get install -y libmysqlclient-dev mysql-client
 
 WORKDIR /var/www/
 RUN rbenv global 2.4.0
