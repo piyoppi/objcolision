@@ -1,11 +1,11 @@
 version: '3'
 services:
-  app:
+  gameapp:
     build: .
     command: /sbin/init
     privileged: true
     hostname: app.local
-    container_name: app
+    container_name: gameapp
     ports:
       - '3000:3030'
     volumes:
@@ -14,8 +14,8 @@ services:
     #command: bash -c "cd /var/www && bundle exec rails s"
         #command: /sbin/init
 
-  db:
+  gamedb:
     image: mysql/mysql-server:5.7
-    container_name: db
+    container_name: gamedb
     environment:
       - MYSQL_ROOT_PASSWORD="hoge"
