@@ -90,6 +90,8 @@ let elements = [
     }),
 ];
 
+window.onload = function(){
+
 let dispElem = document.getElementById('display');
 let colisionDetect = new colisionDetector(1500, 1500, 2, elements);
 let colisionForce = new colisionForceController(); 
@@ -97,8 +99,8 @@ let colisionForce = new colisionForceController();
 let renderer = new rendererPixi(dispElem);
 let textureList = new textureListPixi();
 textureList.loadTextureFromURLs( [
-        {name: "chip", url: 'img/chip.bmp'},
-        {name: "chara", url: 'img/chara.png'}
+        {name: "chip", url:  'tmpimg/chip.bmp'},
+        {name: "chara", url: 'tmpimg/chara.png'}
 ], ()=>{
     renderer.addItem(elements[0], new animationPixi({texture: textureList.textures["chip"], frame: [{nextStep: 10, rect: {x: 0, y: 0, width: 64, height: 64} }]}) );
     renderer.addItem(elements[1], new animationPixi({texture: textureList.textures["chip"], frame: [
@@ -146,4 +148,6 @@ function proc(){
             proc.execute(item);
         });
     });
+}
+
 }

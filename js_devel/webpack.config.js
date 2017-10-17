@@ -2,7 +2,7 @@ module.exports = {
     entry: {
         main: './src/main.js',
     },
-    output: {filename: 'dist/js/[name].bundle.js'},
+    output: {filename: '../app/assets/javascripts/gameapp/[name].bundle.js'},
     module: {
         rules: [
             {
@@ -15,6 +15,8 @@ module.exports = {
                     }
                 }
             }
+        ],
+        loaders: [
         ]
     },
     node: {

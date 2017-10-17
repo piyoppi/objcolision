@@ -1,3 +1,7 @@
-// Place all the styles related to the GameCreatingPages controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+#display {
+    width: 1500px;
+    height: 1500px;
+    border-style: solid;
+    position: relative;
+    background-image: url('../img/bg.png');
+}
