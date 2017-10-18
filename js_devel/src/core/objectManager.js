@@ -44,6 +44,14 @@ export default class objectManager {
         });
     }
 
+    static runObjectTasks(items){
+        items.forEach( item => {
+            item.proc.forEach( proc => {
+                proc.execute(item);
+            });
+        });
+    }
+
     static updateObjectState(items){
         this._calcVelocity(items);
         this._setPosition(items);

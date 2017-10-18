@@ -6,22 +6,20 @@
 </style>
 
 <template>
-    <div>
+    <div class="map-area">
         <div id="map" class="map-area"></div>
     </div>
 </template>
 
 <script>
 
-import colisionDetector from "./../core/colisionDetector.js"
-import colisionForceController from "./../core/colisionForceControl.js"
 import sharedResource from "./../core/sharedResource.js"
 import addForceFromKey from "./../core/addForceFromKey.js"
 import basicItem from "./../core/basicItem.js"
 import linearMove from "./../core/move_controller/linear_move.js"
 import circleMove from "./../core/move_controller/circle_move.js"
-import gravity from "./../core/gravity.js"
-import objectManager from "./../core/objectManager.js"
+
+import map from "./../core/map.js"
 
 //renderer
 import display from "./../core/display.js"
@@ -105,67 +103,8 @@ new basicItem({
 }),
 ];
 
-window.onload = function(){
-
-    let dispElem = document.getElementById('display');
-    let colisionDetect = new colisionDetector(1500, 1500, 2, elements);
-    let colisionForce = new colisionForceController(); 
-
-    let renderer = new rendererPixi(dispElem);
-    let textureList = new textureListPixi();
-    textureList.loadTextureFromURLs( [
-    {name: "chip", url:  'tmpimg/chip.bmp'},
-    {name: "chara", url: 'tmpimg/chara.png'}
-    ], ()=>{
-        renderer.addItem(elements[0], new animationPixi({texture: textureList.textures["chip"], frame: [{nextStep: 10, rect: {x: 0, y: 0, width: 64, height: 64} }]}) );
-        renderer.addItem(elements[1], new animationPixi({texture: textureList.textures["chip"], frame: [
-            {nextStep: 10, rect: {x: 0, y: 0, width: 64, height: 64}},
-            {nextStep: 10, rect: {x: 32, y: 0, width: 64, height: 64}},
-            {nextStep: 10, rect: {x: 64, y: 0, width: 64, height: 64}}
-        ]}));
-        renderer.addItem(elements[2], new animationPixi({texture: textureList.textures["chip"], frame: [{nextStep: 10, rect: {x: 32, y: 0, width: 32, height: 32} }], option: {tiling: true}}) );
-        renderer.addItem(elements[3], new animationPixi({texture: textureList.textures["chip"], frame: [{nextStep: 10, rect: {x: 0, y: 0, width: 64, height: 64} }]}) );
-        renderer.addItem(elements[4], new animationPixi({texture: textureList.textures["chip"], frame: [{nextStep: 10, rect: {x: 0, y: 0, width: 64, height: 64} }]}) );
-        renderer.addItem(elements[5], new animationPixi({texture: textureList.textures["chip"], frame: [{nextStep: 10, rect: {x: 0, y: 0, width: 64, height: 64} }]}) );
-    });
-
-    //----------------
-    //let disp = new display(dispElem);
-    function render(){
-        renderer.render(elements);
-        //disp.renderElements(elements);
-    }
-    //----------------
-
-    function freq(){
-        proc();
-        gravity.add(elements); 
-        colisionDetect.isColision(elements);
-        colisionForce.changeForce(elements);
-        objectManager.updateObjectState(elements);
-
-        elements.forEach( item => {
-            if( (item.velocity[0] != 0) || (item.velocity[1] != 0 ) ) colisionDetect.updateMortonTree(item);
-        })
-        render();
-        let frameRate = sharedResource.frameRateManager.completeFrame();
-        //console.log(frameRate);
-        //console.log(`pos: ${elements[0].position[0]}, ${elements[0].position[1]}   vel: ${elements[0].velocity[0]}, ${elements[0].velocity[1]}`);
-        //window.requestAnimationFrame(freq);
-        setTimeout( freq, 16 );
-    }
-    freq();
-
-
-    function proc(){
-        elements.forEach( item => {
-            item.proc.forEach( proc => {
-                proc.execute(item);
-            });
-        });
-    }
-
-}
+window.addEventListener("load", function(){
+});
 
 export default {
     data: function () {
@@ -173,6 +112,40 @@ export default {
         }
     },
     components: {
+    },
+    mounted: function(){
+        let mapItem = new map(1500, 1500);
+        mapItem.setObjects(elements);
+
+        let dispElem = document.getElementById('map');
+        let renderer = new rendererPixi(dispElem);
+        let textureList = new textureListPixi();
+        textureList.loadTextureFromURLs( [
+        {name: "chip", url:  'tmpimg/chip.bmp'},
+        {name: "chara", url: 'tmpimg/chara.png'}
+        ], ()=>{
+            renderer.addItem(elements[0], new animationPixi({texture: textureList.textures["chip"], frame: [{nextStep: 10, rect: {x: 0, y: 0, width: 64, height: 64} }]}) );
+            renderer.addItem(elements[1], new animationPixi({texture: textureList.textures["chip"], frame: [
+                {nextStep: 10, rect: {x: 0, y: 0, width: 64, height: 64}},
+                {nextStep: 10, rect: {x: 32, y: 0, width: 64, height: 64}},
+                {nextStep: 10, rect: {x: 64, y: 0, width: 64, height: 64}}
+            ]}));
+            renderer.addItem(elements[2], new animationPixi({texture: textureList.textures["chip"], frame: [{nextStep: 10, rect: {x: 32, y: 0, width: 32, height: 32} }], option: {tiling: true}}) );
+            renderer.addItem(elements[3], new animationPixi({texture: textureList.textures["chip"], frame: [{nextStep: 10, rect: {x: 0, y: 0, width: 64, height: 64} }]}) );
+            renderer.addItem(elements[4], new animationPixi({texture: textureList.textures["chip"], frame: [{nextStep: 10, rect: {x: 0, y: 0, width: 64, height: 64} }]}) );
+            renderer.addItem(elements[5], new animationPixi({texture: textureList.textures["chip"], frame: [{nextStep: 10, rect: {x: 0, y: 0, width: 64, height: 64} }]}) );
+        });
+
+        function freq(){
+            mapItem.executeStep();
+            renderer.render(mapItem.objects);
+            let frameRate = sharedResource.frameRateManager.completeFrame();
+            //console.log(frameRate);
+            //console.log(`pos: ${elements[0].position[0]}, ${elements[0].position[1]}   vel: ${elements[0].velocity[0]}, ${elements[0].velocity[1]}`);
+            //window.requestAnimationFrame(freq);
+            setTimeout( freq, 16 );
+        }
+        freq();
     },
     created: function(){
     },

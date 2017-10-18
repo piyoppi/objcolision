@@ -8,7 +8,7 @@
 import sharedResource from "./sharedResource.js"
 
 export default class colisionDetector {
-    constructor(fieldWidth, fieldHeight, level, items){
+    constructor(fieldWidth, fieldHeight, level, items = null){
         this._fieldWidth = fieldWidth;
         this._fieldHeight = fieldHeight;
         this._level = level;
